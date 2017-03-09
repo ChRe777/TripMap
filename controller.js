@@ -93,9 +93,7 @@ function addFlight() {
 	if (airportFrom != undefined  
 	&&  airportTo   != undefined) {
 	
-		var positionFrom = new google.maps.LatLng(airportFrom.latitude, airportFrom.longitude);
-		var positionTo   = new google.maps.LatLng(airportTo.latitude,   airportTo.longitude  );
-						
+				
 		var item = createFlightItem(airportFrom, airportTo);
 		
 		addItem(item);

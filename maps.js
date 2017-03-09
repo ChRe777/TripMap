@@ -48,17 +48,9 @@ function initMap() {
 		map: map
 	};
 	
+
 	
-	items = [];
 }
-
-//
-// updateMap 
-//
-function updateMap(items) {
-	debugConsole("update map");
-}
-
 
 // -------------------------------------------------------------------------------------------------
 // COMMANDS
@@ -103,6 +95,7 @@ function addPolyLine(markerFrom, markerTo) {
 // removePolyLine
 //
 function removePolyLine(polyLine) {
+	polyLine.setMap(null);
 	polyLine.setPath(null);
 }
 
@@ -150,12 +143,15 @@ function updateMap(item, itemChangedType) {
 		
 			// Flight
 			case ITEM_TYPE.FLIGHT:
+			
+				var positionFrom = new google.maps.LatLng(item.airportFrom.latitude, item.airportFrom.longitude);
+				var positionTo   = new google.maps.LatLng(item.airportTo.latitude,   item.airportTo.longitude  );
 				
-				var flightRoute = addFlightRoute(item.airportFrom, item.airportTo);
+				var flightRoute = addFlightRoute(positionFrom, positionTo);
 				
 				item.flightRoute = flightRoute;
 				
-				map.setCenter(item.airportFrom);
+				map.setCenter(positionFrom);
 				
 			break;
 			
