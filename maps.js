@@ -134,3 +134,70 @@ function removeFlightRoute(flight) {
 	removePolyLine(flight.polyLine);
 
 }
+
+// -------------------------------------------------------------------------------------------------
+// COMMANDS 
+// -------------------------------------------------------------------------------------------------
+
+//
+// updateMap
+// 
+function updateMap(item, itemChangedType) {
+
+	function updateMapItemAdded(item) {
+	
+			switch (item.type) {
+		
+			// Flight
+			case ITEM_TYPE.FLIGHT:
+				
+				var flightRoute = addFlightRoute(item.airportFrom, item.airportTo);
+				
+				item.flightRoute = flightRoute;
+				
+				map.setCenter(item.airportFrom);
+				
+			break;
+			
+			// Location
+			case ITEM_TYPE.LOCATION:
+				
+				var marker = addMarker(item.position);
+				
+				item.marker = marker;
+				
+				map.setCenter(item.position);
+				
+				
+			break;
+			
+		}
+	}
+
+	function updateMapItemRemoved(item) {
+	
+		switch (item.type) {
+		
+			// Flight
+			case ITEM_TYPE.FLIGHT:
+				removeFlightRoute(item.flightRoute);
+				item.flightRoute = null;
+			break;
+			
+			// Location
+			case ITEM_TYPE.LOCATION:
+				removeMarker(item.marker);
+				item.marker = null;
+			break;
+		}
+		
+	}
+
+	if (itemChangedType == ITEMS_CHANGED_TYPE.ITEM_ADDED) {
+		updateMapItemAdded(item);
+	}  
+	else if (itemChangedType == ITEMS_CHANGED_TYPE.ITEM_REMOVED) {
+		updateMapItemRemoved(item);
+	}
+		
+}

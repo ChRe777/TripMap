@@ -33,17 +33,17 @@ var itemsChangedFunc; // Observer Function
 // -------------------------------------------------------------------------------------------------
 
 var itemId = 0;
-var items;
+var items = [];
 
 //
 // createFlightItem 
 //
-function createFlightItem(flightRoute, airportFrom, airportTo) {
+function createFlightItem(airportFrom, airportTo) {
 
 	var item = {
 		id			: itemId++,
 		type  		: ITEM_TYPE.FLIGHT,
-		route 		: flightRoute,
+		flightRoute : null,
 		airportFrom : airportFrom,
 		airportTo   : airportTo
 	};
@@ -54,12 +54,12 @@ function createFlightItem(flightRoute, airportFrom, airportTo) {
 //
 // createLocationItem
 //
-function createLocationItem(position, marker, result) {
+function createLocationItem(position, result) {
 	
 	var item = {
 		id		 	: itemId++,
 		type   	 	: ITEM_TYPE.LOCATION,
-		marker 	 	: marker,
+		marker 	 	: null,
 		position 	: position,
 		adress	 	: result.formatted_address,
 		result	 	: result,
@@ -90,11 +90,21 @@ function removeItemById(id) {
 		var item = items[index];
 	
 		if (item.id === id) {
-		   items.splice(index, 1);
+		
+		   	items.splice(index, 1);
+		   	
+		   	// Fires item changed 
+			
+			// to remove from list
+			// to remoce from map
+			
+			itemsChangedFunc(item, ITEMS_CHANGED_TYPE.ITEM_REMOVED);
+			
+			debugConsole("Item with id " + item.id + " removed");
+			
+		   	item = null;
 		   
-		   itemsChangedFunc(item, ITEMS_CHANGED_TYPE.ITEM_REMOVED);
-		   
-		   break;
+		   	break;
 		}
 	}		
 	

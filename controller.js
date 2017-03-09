@@ -57,49 +57,6 @@ function init() {
 	};
 }
 
-//
-// updateMap
-// 
-function updateMap(item, itemChangedType) {
-
-	if (itemChangedType == ITEMS_CHANGED_TYPE.ITEM_ADDED) {
-
-		switch (item.type) {
-		
-			// Flight
-			case ITEM_TYPE.FLIGHT:
-				var flightRoute = addFlightRoute(item.airportFrom, item.airportTo);
-				map.setCenter(item.airportFrom);
-			break;
-			
-			// Location
-			case ITEM_TYPE.LOCATION:
-				removeMarker(item.marker);
-				map.setCenter(item.marker.getPosition());
-			break;
-			
-		}
-		
-	}
-	
-	if (itemChangedType == ITEMS_CHANGED_TYPE.ITEM_REMOVED) {
-		
-		switch (item.type) {
-		
-			// Flight
-			case ITEM_TYPE.FLIGHT:
-				removeFlightRoute(item.route);
-			break;
-			
-			// Location
-			case ITEM_TYPE.LOCATION:
-				removeMarker(item.marker);
-			break;
-		}
-	}
-		
-}
-
 
 // -------------------------------------------------------------------------------------------------
 // COMMANDS 
@@ -139,7 +96,7 @@ function addFlight() {
 		var positionFrom = new google.maps.LatLng(airportFrom.latitude, airportFrom.longitude);
 		var positionTo   = new google.maps.LatLng(airportTo.latitude,   airportTo.longitude  );
 						
-		var item = createFlightItem(flightRoute, airportFrom, airportTo);
+		var item = createFlightItem(airportFrom, airportTo);
 		
 		addItem(item);
 		
@@ -168,12 +125,8 @@ function addLocation() {
 				var result = results[0];
 			
 				var position = result.geometry.location;
-
-				var marker = addMarker(position);
-				
-				map.setCenter(position);
-				
-				var item = createLocationItem(position, marker, result);
+		
+				var item = createLocationItem(position, result);
 				
 				addItem(item);
 				

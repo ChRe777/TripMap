@@ -84,6 +84,15 @@ function init() {
 	
 	initMap();
 	
+	var table = document.getElementById("table");
+	
+	table.addEventListener("resize", 
+		function() {
+			google.maps.event.trigger(map, 'resize');
+		}
+	);
+	
+	
 	items = [];
 }
 

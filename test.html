@@ -16,6 +16,11 @@
 	</script>	
 
 	<style>
+	
+		body {
+			padding			: 0;
+			margin			: 0;
+		}
 
 		.table {
 			width  			: 100%;
@@ -23,6 +28,7 @@
 		}
 		
 		.left {
+			padding			: 10px;
 			vertical-align 	: top;
 			width 		   	: 30%;
 		}
@@ -41,29 +47,21 @@
 		}
 		
 		.map {
-		
-			height			: 600px;
-			width 			: 600px;
-		
-			/*
 			height			: 100%;
 			width 			: 100%;
-			*/
 		}
 		
 		.right {
 			vertical-align 	: top;
-			width 		   	: 20%;
-			
+			width 		   	: 20%;	
 		}
 		
 		.list {
+			padding			: 10px;
 			overflow-y		: scroll;
-			/*min-height		: 200px;*/
-			/*max-height		: 200px;*/
 			height			: 100%;
 			background-color: #efefef;
-			border			: 1px solid #ccc;
+			border			: 0px solid #ccc;
 		}
 	
 	</style>
@@ -73,10 +71,10 @@
 	
 	<datalist id="airports-list"></datalist>
 	
-	<table class='table'>
+	<table id="table" class='table' cellpadding="0" cellspacing="0">
 		<tr>
 		
-			<!-- LEFT ----------------------------------------------------------------------------->
+			<!-- LEFT -->
 			
 			<td class="left">
 				<b>Flight:</b><br/> 
@@ -106,13 +104,13 @@
 				<div id="console" class="console"></div>
 			</td>
 			
-			<!-- MIDDLE --------------------------------------------------------------------------->
+			<!-- MIDDLE -->
 			
 			<td class="middle">
 				<div id="map" class="map"></div>
 			</td>
 			
-			<!-- RIGHT ---------------------------------------------------------------------------->
+			<!-- RIGHT -->
 			
 			<td class="right">
 				<div id="list" class="list"></div>
