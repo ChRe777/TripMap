@@ -1,0 +1,125 @@
+﻿<html charset="UTF-8">
+<head>
+
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	
+	<script type="text/javascript" src="airports.js"></script>
+	<script type="text/javascript" src="maps.js"></script>
+	<script type="text/javascript" src="list.js"></script>
+	<script type="text/javascript" src="model.js"></script>
+	<script type="text/javascript" src="controller.js"></script>
+	
+	<script type="text/javascript">
+		function main() {
+			init();
+		}
+	</script>	
+
+	<style>
+
+		.table {
+			width  			: 100%;
+			height 			: 100%;
+		}
+		
+		.left {
+			vertical-align 	: top;
+			width 		   	: 30%;
+		}
+		
+		.console {
+			overflow-y		: scroll;
+			min-height		: 200px;
+			max-height		: 200px;
+			background-color: #efefef;
+			border			: 1px solid #ccc;
+		}
+		
+		.middle {
+			vertical-align 	: top;
+			width 		   	: 50%;
+		}
+		
+		.map {
+		
+			height			: 600px;
+			width 			: 600px;
+		
+			/*
+			height			: 100%;
+			width 			: 100%;
+			*/
+		}
+		
+		.right {
+			vertical-align 	: top;
+			width 		   	: 20%;
+			
+		}
+		
+		.list {
+			overflow-y		: scroll;
+			/*min-height		: 200px;*/
+			/*max-height		: 200px;*/
+			height			: 100%;
+			background-color: #efefef;
+			border			: 1px solid #ccc;
+		}
+	
+	</style>
+
+</head>
+<body onload="main();">
+	
+	<datalist id="airports-list"></datalist>
+	
+	<table class='table'>
+		<tr>
+		
+			<!-- LEFT ----------------------------------------------------------------------------->
+			
+			<td class="left">
+				<b>Flight:</b><br/> 
+				<br/>
+				From: <input type="text" id="airportFromTextBox" list="airports-list" placeholder="e.g. Graz Airport">
+				To: <input type="text" id="airportToTextBox" list="airports-list" placeholder="e.g. Vienna">
+				<input type="button" value="Add" onclick="addFlight()">
+
+				<br/><br/>
+
+				<b>Bus/Car/Train:</b><br/> 
+				<br/> 
+				From: <input type="text" id="roadFromTextBox" list="city-list" placeholder="e.g. Graz">
+				To: <input type="text" id="roadToTextBox" list="city-list" placeholder="e.g. Vienna">
+				<input type="button" value="Add" onclick="addRoad()">
+
+				<br/><br/>
+
+				<b>Position:</b><br/>  
+				<br/> 
+				Address:	<input id="positionAddress" type="textbox" value="Sydney, NSW">
+				<input type="button" value="Add" onclick="addLocation()">
+
+				<br/><br/>
+				
+				<b>Output:</b><br/> 
+				<div id="console" class="console"></div>
+			</td>
+			
+			<!-- MIDDLE --------------------------------------------------------------------------->
+			
+			<td class="middle">
+				<div id="map" class="map"></div>
+			</td>
+			
+			<!-- RIGHT ---------------------------------------------------------------------------->
+			
+			<td class="right">
+				<div id="list" class="list"></div>
+			</td>
+			
+		</tr>
+	</table>
+
+</body> 
+</html>
