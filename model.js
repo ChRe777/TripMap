@@ -9,11 +9,10 @@
 // -------------------------------------------------------------------------------------------------
 
 var ITEM_TYPE = {
-	FLIGHT   	: 0, 
-	LOCATION 	: 1,
-	ROAD	 	: 2,
-	TRAIN    	: 3,
-	OTHER	 	: 99
+	FLIGHT   		: 0, 
+	LOCATION 		: 1,
+	BUS_CAR_TRAIN	: 2,
+	OTHER	 		: 99
 };
 
 var ITEMS_CHANGED_TYPE = {
@@ -46,6 +45,21 @@ function createFlightItem(airportFrom, airportTo) {
 		flightRoute : null,
 		airportFrom : airportFrom,
 		airportTo   : airportTo
+	};
+	
+	return item;
+}
+
+function createRoadBusTrainItem(resultFrom, resultTo) {
+
+	var item = {
+		id			: itemId++,
+		type 		: ITEM_TYPE.BUS_CAR_TRAIN,
+		route		: null,		// route on Map with 2 marker and polyline
+		resultFrom 	: resultFrom,
+		resultTo	: resultTo,
+		addressFrom : resultFrom.formatted_address,
+		addressTo   : resultTo.formatted_address,
 	};
 	
 	return item;

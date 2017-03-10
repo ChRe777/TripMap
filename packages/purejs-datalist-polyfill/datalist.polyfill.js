@@ -139,6 +139,9 @@
         };
         
         var buildList = function(e) {
+        
+        	console.log("start buildlist");
+        
             // Build datalist
             fakeList.style.display = 'block';
             positionList();

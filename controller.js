@@ -104,6 +104,68 @@ function addFlight() {
 }
 
 //
+// addRoad
+//
+function addRoad() {
+	
+	var roadAddressFrom = document.getElementById("roadFromTextBox").value;
+	var roadAddressTo   = document.getElementById("roadToTextBox"  ).value;
+	
+	var foo = {
+		address: roadAddressFrom
+	};
+	
+	// ---- FROM -----
+	
+	geocoder.geocode(
+		foo,
+		function(resultsFrom, statusFrom) {
+		
+			if (statusFrom == "OK") {
+	
+				var resultFrom = resultsFrom[0];
+				//var positionFrom = resultFrom.geometry.location;
+
+				var bar = {
+					address : roadAddressTo
+				};
+
+				// ---- TO ----
+								
+				geocoder.geocode(
+					bar,
+					function(resultsTo, statusTo) {
+						if (statusTo == "OK") {
+						
+							var resultTo = resultsTo[0];
+							//var positionTo = resultTo.geometry.location;
+							
+							var item = createRoadBusTrainItem(resultFrom, resultTo);
+		
+							addItem(item);
+		
+							debugConsole("Add road/bus/train from " + roadAddressFrom + " to " + roadAddressTo);
+		
+						} else {
+							if (status == "ZERO_RESULTS") {
+								debugConsole("Address '" + roadAddressTo + "' not found.");
+							}
+						}
+					}
+				);
+	
+			} else {
+				if (status == "ZERO_RESULTS") {
+					debugConsole("Address '" + roadAddressFrom + "' not found.");
+				}
+			}
+		}
+	);
+	
+}
+
+
+//
 // addLocation 
 //
 function addLocation() {

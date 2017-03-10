@@ -1,22 +1,10 @@
 ﻿<html charset="UTF-8">
 <head>
 
-	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
-	
-	<script type="text/javascript" src="airports.js"></script>
-	<script type="text/javascript" src="maps.js"></script>
-	<script type="text/javascript" src="list.js"></script>
-	<script type="text/javascript" src="model.js"></script>
-	<script type="text/javascript" src="controller.js"></script>
-	
-	<script type="text/javascript">
-		function main() {
-			init();
-		}
-	</script>	
+	<link rel="stylesheet" href="packages/purejs-datalist-polyfill/style.css"/>
 
 	<style>
-	
+
 		body {
 			padding			: 0;
 			margin			: 0;
@@ -67,16 +55,14 @@
 	</style>
 
 </head>
-<body onload="main();">
-	
-	<datalist id="airports-list"></datalist>
-	
+<body>
+	<input type="text" id="test" list="airports-list">
+		
 	<table id="table" class='table' cellpadding="0" cellspacing="0">
 		<tr>
 		
-			<!-- LEFT -->
-			
 			<td class="left">
+			
 				<b>Flight:</b><br/> 
 				<br/>
 				From: <input type="text" id="airportFromTextBox" list="airports-list" placeholder="e.g. Graz Airport">
@@ -87,37 +73,130 @@
 
 				<b>Bus/Car/Train:</b><br/> 
 				<br/> 
-				From: <input type="text" id="roadFromTextBox" list="city-list" placeholder="e.g. Graz">
-				To: <input type="text" id="roadToTextBox" list="city-list" placeholder="e.g. Vienna">
+				From: <input type="text" id="roadFromTextBox" list="cities-list" placeholder="e.g. Graz">
+				To: <input type="text" id="roadToTextBox" list="cities-list" placeholder="e.g. Vienna">
 				<input type="button" value="Add" onclick="addRoad()">
 
 				<br/><br/>
 
 				<b>Position:</b><br/>  
 				<br/> 
-				Address:	<input id="positionAddress" type="textbox" value="Sydney, NSW">
+				Address: <input id="positionAddress" type="textbox" value="Sydney, NSW">
 				<input type="button" value="Add" onclick="addLocation()">
 
 				<br/><br/>
+			
 				
 				<b>Output:</b><br/> 
 				<div id="console" class="console"></div>
 			</td>
 			
-			<!-- MIDDLE -->
+			
 			
 			<td class="middle">
 				<div id="map" class="map"></div>
 			</td>
 			
-			<!-- RIGHT -->
+			
 			
 			<td class="right">
 				<div id="list" class="list"></div>
 			</td>
 			
+	
+			
 		</tr>
 	</table>
+	
+	<datalist id="airports-list">
+	</datalist>
+	
+	<datalist id="cities-list">
+	<!--[if lte IE 9]><select data-datalist="states"><![endif]-->
+		<option value="Alabama">
+		<option value="Alaska">
+		<option value="Arizona">
+		<option value="Arkansas">
+		<option value="California">
+		<option value="Colorado">
+		<option value="Connecticut">
+		<option value="Delaware">
+		<option value="Florida">
+		<option value="Georgia">
+		<option value="Hawaii">
+		<option value="Idaho">
+		<option value="Illinois">
+		<option value="Indiana">
+		<option value="Iowa">
+		<option value="Kansas">
+		<option value="Kentucky">
+		<option value="Louisiana">
+		<option value="Maine">
+		<option value="Maryland">
+		<option value="Massachusetts">
+		<option value="Michigan">
+		<option value="Minnesota">
+		<option value="Mississippi">
+		<option value="Missouri">
+		<option value="Montana">
+		<option value="Nebraska">
+		<option value="Nevada">
+		<option value="New Hampshire">
+		<option value="New Jersey">
+		<option value="New Mexico">
+		<option value="New York">
+		<option value="North Carolina">
+		<option value="North Dakota">
+		<option value="Ohio">
+		<option value="Oklahoma">
+		<option value="Oregon">
+		<option value="Pennsylvania">
+		<option value="Rhode Island">
+		<option value="South Carolina">
+		<option value="South Dakota">
+		<option value="Tennessee">
+		<option value="Texas">
+		<option value="Utah">
+		<option value="Vermont">
+		<option value="Virginia">
+		<option value="Washington">
+		<option value="West Virginia">
+		<option value="Wisconsin">
+		<option value="Wyoming">
+	<!--[if lte IE 9]></select><![endif]-->
+	</datalist>
+	
+	<script>
+		(function() {
+			var inputs = document.getElementsByTagName('input');
+			for (var i = 0; i < inputs.length; i++ ) {
+				var input = inputs[i];
+				input.onchange = function(evt) {
+					var elem = evt ? evt.target : window.event.srcElement;
+					//alert('new value: ' + elem.value);
+				};
+			}
+		}());
+	</script>
 
+	<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+	<script src="airports.js"></script>
+	<script src="maps.js"></script>
+	<script src="list.js"></script>
+	<script src="model.js"></script>
+	<script src="controller.js"></script>
+	
+	<script>
+		var main = function() {
+			init();
+		};
+		main();
+	</script>
+		
+	<!-- airports datalist has to be filled before this script -->
+	<!-- https://github.com/Fyrd/purejs-datalist-polyfill -->
+	<script src="packages/purejs-datalist-polyfill/datalist.polyfill.js"></script>
+	
 </body> 
 </html>

@@ -47,6 +47,34 @@ function writeFlight(list, item) {
 }
 
 //
+// writeBusCarTrain
+//
+function writeBusCarTrain(list, item) {
+	
+	/*
+	var item = {
+		id			: itemId++,
+		type 		: ITEM_TYPE.BUS_CAR_TRAIN,
+		route		: null,		// route on Map with 2 marker and polyline
+		resultFrom 	: resultFrom,
+		resultTo	: resultTo,
+		addressFrom : resultFrom.formatted_address,
+		addressTo   : resultTo.formatted_address,
+	};
+	*/
+	
+	
+	var imgSrcCar    = "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-16.png"
+	var imgSrcDelete = "https://cdn3.iconfinder.com/data/icons/basic-interface/100/delete-16.png";
+	
+	var imgCa = "<img src='" + imgSrcCar + "'>";
+	var imgDe = "<img src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
+	
+	var text = imgCa + imgDe + " From: " + item.addressFrom + " To: " + item.addressTo;
+	addList(list, text);
+}
+
+//
 // writeLocation 
 //
 function writeLocation(list, item) {
@@ -59,7 +87,7 @@ function writeLocation(list, item) {
 	};
 	*/
 	
-	var imgSrcPushpin = "https://cdn4.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/pin_map_down.png";
+	var imgSrcPushpin = "https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-location-16.png";
 	var imgSrcDelete  = "https://cdn3.iconfinder.com/data/icons/basic-interface/100/delete-16.png";
 	
 	var imgPp = "<img src='" + imgSrcPushpin + "'>";
@@ -77,11 +105,15 @@ function writeItem(list, item) {
 	switch(item.type) {
 		case ITEM_TYPE.FLIGHT:
 			writeFlight(list, item);
-		break;
+			break;
+		
+		case ITEM_TYPE.BUS_CAR_TRAIN:
+			writeBusCarTrain(list, item);
+			break;
 		
 		case ITEM_TYPE.LOCATION:
 			writeLocation(list, item);
-		break;
+			break;
 	}
 }
 

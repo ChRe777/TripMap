@@ -34,7 +34,7 @@ function initMap() {
 		scale: 4
 	};
 	
-	polyLineStyle = {
+	polyLineStyleFlight = {
 		strokeColor: '#CC0099',
 		strokeOpacity: 1.0,
 		/*icons: [{
@@ -48,6 +48,21 @@ function initMap() {
 		map: map
 	};
 	
+	// Bus/Car/Train
+	
+	polyLineStyleRoute = {
+		strokeColor: '#770099',
+		strokeOpacity: 1.0,
+		/*icons: [{
+		  icon: lineSymbol,
+		  offset: '0',
+		  repeat: '15px'
+		}],
+		*/
+		strokeWeight: 3,
+		geodesic: true,
+		map: map
+	};
 
 	
 }
@@ -81,11 +96,11 @@ function removeMarker(marker) {
 //
 // addPolyLine
 //
-function addPolyLine(markerFrom, markerTo) {
+function addPolyLine(markerFrom, markerTo, style) {
 
 	var path = [markerFrom.getPosition(), markerTo.getPosition()];
 	
-	geodesicPoly = new google.maps.Polyline(polyLineStyle);
+	geodesicPoly = new google.maps.Polyline(style);
 	geodesicPoly.setPath(path);
 	
 	return geodesicPoly;
@@ -106,7 +121,7 @@ function addFlightRoute(positionFrom, positionTo) {
 
 	var markerFrom = addMarker  (positionFrom);
 	var markerTo   = addMarker  (positionTo  );
-	var polyLine   = addPolyLine(markerFrom, markerTo);
+	var polyLine   = addPolyLine(markerFrom, markerTo, polyLineStyleFlight);
 	
 	var obj = {
 		markerFrom 	: markerFrom,
@@ -128,6 +143,35 @@ function removeFlightRoute(flight) {
 
 }
 
+//
+// addRoute
+//
+function addRoute(positionFrom, positionTo) {
+
+	var markerFrom = addMarker  (positionFrom);
+	var markerTo   = addMarker  (positionTo  );
+	var polyLine   = addPolyLine(markerFrom, markerTo, polyLineStyleRoute);
+	
+	var obj = {
+		markerFrom 	: markerFrom,
+		markerTo 	: markerTo,
+		polyLine 	: polyLine
+	};
+	
+	return obj;
+}
+
+//
+// removeRoute
+//
+function removeRoute(route) {
+
+	removeMarker(route.markerFrom);
+	removeMarker(route.markerTo);
+	removePolyLine(route.polyLine);
+
+}
+
 // -------------------------------------------------------------------------------------------------
 // COMMANDS 
 // -------------------------------------------------------------------------------------------------
@@ -142,6 +186,7 @@ function updateMap(item, itemChangedType) {
 			switch (item.type) {
 		
 			// Flight
+			//
 			case ITEM_TYPE.FLIGHT:
 			
 				var positionFrom = new google.maps.LatLng(item.airportFrom.latitude, item.airportFrom.longitude);
@@ -155,7 +200,23 @@ function updateMap(item, itemChangedType) {
 				
 			break;
 			
+			// Bus, Car or Train
+			//
+			case ITEM_TYPE.BUS_CAR_TRAIN:
+			
+				var positionFrom = item.resultFrom.geometry.location;
+				var positionTo   = item.resultTo.geometry.location;
+				
+				var route = addRoute(positionFrom, positionTo);
+				
+				item.route = route;
+				
+				map.setCenter(positionFrom);
+				
+			break;
+		
 			// Location
+			//
 			case ITEM_TYPE.LOCATION:
 				
 				var marker = addMarker(item.position);

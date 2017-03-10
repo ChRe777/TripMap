@@ -62,12 +62,9 @@ function initAirportsDataList() {
 	var airportsDataList = document.getElementById('airports-list');
 	
 	var addOption = function(airport) {
-		
 		var option = document.createElement('option');
-		
-		option.value = airport.Name;
+		option.value = airport.name;
 		airportsDataList.appendChild(option);
-		
 	};
 		
 	airports.forEach(addOption);
