@@ -30,17 +30,12 @@
         }
     };
 
-	var listIds = [];
+	
+	var fakeLists = {};
 
     for( var i = 0; i < inputs.length; i++ ) {
         var input = inputs[i];
         var listId = input.getAttribute('list');
-        
-        if ((listIds.indexOf(listId) > -1) == false) { // Not Exists
-        	listIds.push(listId);
-        } else {
-        	continue;
-        }
         
         var datalist = document.getElementById(listId);
         if( !datalist ) {
@@ -54,40 +49,39 @@
         var parent = childSelect || datalist;
         var listItems = parent.getElementsByTagName('option');
         
-        convert(input, datalist, listItems);
+        convert(input, datalist, listItems, listId);
         
         if( childSelect ) {
             childSelect.parentNode.removeChild( childSelect );
         }
     }
     
-    function convert(input, datalist, listItems) {
+    /*
+    
+    creates a fakelist 
+    
+    <ul>
+    	<li>foo</li>
+    	<li>bar</li>
+    </ul>
+    
+    from
+    
+    <datalist>
+    	<option value="foo">
+    	<option value="bar">
+    </datalist>
+    
+    second time the list is already convert so
+    listItems is empty and this function creates
+    an empty fakelist.
+    
+    */
+    
+    function convert(input, datalist, listItems, listId) {
         
-        var fakeList = document.createElement('ul');
         
-        var visibleItems = null;
-        
-        fakeList.id = listId;
-        fakeList.className = LIST_CLASS;
-        document.body.appendChild( fakeList );
-
-        var scrollValue = 0;
-
-          // Used to prevent reflow
-        var tempItems = document.createDocumentFragment();
-        
-        for( var i = 0; i < listItems.length; i++ ) {
-            var item = listItems[i];
-            var li = document.createElement('li');
-            li.innerText = item.value;
-            tempItems.appendChild( li );
-        }
-        
-        fakeList.appendChild( tempItems );
-        
-        var fakeItems = fakeList.childNodes;
-        
-        var eachItem = function(callback) {
+    	var eachItem = function(callback) {
             for( var i = 0; i < fakeItems.length; i++ ) {
                 callback(fakeItems[i]);
             }
@@ -100,29 +94,6 @@
                 elem.attachEvent('on' + event, func);
             }
         };
-        
-        datalist.parentNode.removeChild( datalist );
-        
-        // Register to Input
-        //
-        listen(input, 'focus', function() {
-            // Reset scroll
-            fakeList.scrollTop = 0;
-            scrollValue = 0;
-        });
-        
-        // Register to Input
-        //
-        listen(input, 'blur', function(evt) {
-            // If this fires immediately, it prevents click-to-select from working
-            setTimeout(function() {
-                fakeList.style.display = 'none';
-                eachItem( function(item) {
-                    // Note: removes all, not just ACTIVE_CLASS, but should be safe
-                    item.className = '';
-                });
-            }, 100);
-        });
         
         var positionList = function() {
             fakeList.style.top = input.offsetTop + input.offsetHeight + 'px';
@@ -137,6 +108,8 @@
                 fakeList.style.display = 'none';
             }, 100);
         };
+        
+    
         
         var buildList = function(e) {
         
@@ -180,10 +153,92 @@
             //console.log("end buidlist - time: " + timeElapsed);
         };
         
+        /*
+        
+        listItems := 
+        	<option value = "airport 1">
+        	<option value = "airport 2">
+        	
+        
+        fakeList :=
+        	<ul>
+        		<li>airport 1</li>
+        		<li>airport 2</li>
+        	</ul>
+        	
+        */
+        
+        
+        // -------------------------------------------------------------------------------
+        // 
+        // -------------------------------------------------------------------------------
+        
+        var fakeList;
+        var fakeItems;
+        
+        if (fakeLists[listId] != undefined) {
+        	fakeList = fakeLists[listId];
+        	fakeItems = fakeList.childNodes;
+        } else {
+        
+			fakeList = document.createElement('ul');
+			
+			fakeLists[listId] = fakeList;
+	   
+			fakeList.id = listId;
+			fakeList.className = LIST_CLASS;
+			document.body.appendChild( fakeList );
+
+			// Used to prevent reflow
+			var tempItems = document.createDocumentFragment();
+		
+			for( var i = 0; i < listItems.length; i++ ) {
+				var item = listItems[i];
+				var li = document.createElement('li');
+				li.innerText = item.value;
+				tempItems.appendChild( li );
+			}
+        
+        	fakeList.appendChild( tempItems );
+        
+        	fakeItems = fakeList.childNodes;
+        
+        	datalist.parentNode.removeChild( datalist );
+        }
+        
+        // -------------------------------------------------------------------------------
+        // 
+        // -------------------------------------------------------------------------------
+        
+        var scrollValue = 0;
+        var visibleItems = null;
+        
+        // Register to Input
+        //
+        listen(input, 'focus', function() {
+            // Reset scroll
+            fakeList.scrollTop = 0;
+            scrollValue = 0;
+        });
+        
+        // Register to Input
+        //
+        listen(input, 'blur', function(evt) {
+            // If this fires immediately, it prevents click-to-select from working
+            setTimeout(function() {
+                fakeList.style.display = 'none';
+                eachItem( function(item) {
+                    // Note: removes all, not just ACTIVE_CLASS, but should be safe
+                    item.className = '';
+                });
+            }, 100);
+        });
+        
+        
         listen(input, 'keyup', buildList);
         listen(input, 'focus', buildList);
         
-        // Don't want to use :hover in CSS so doing this instead
+       	// Don't want to use :hover in CSS so doing this instead
         // really helps with arrow key navigation
         eachItem( function(item) {
             // Note: removes all, not just ACTIVE_CLASS, but should be safe

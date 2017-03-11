@@ -22,7 +22,7 @@ function initMap() {
     var latlng = new google.maps.LatLng(-34.397, 150.644);
 	
     var mapOptions = {
-		zoom: 8,
+		zoom: 2,
 		center: latlng
     }
 	
@@ -111,7 +111,7 @@ function addPolyLine(markerFrom, markerTo, style) {
 //
 function removePolyLine(polyLine) {
 	polyLine.setMap(null);
-	polyLine.setPath(null);
+	//polyLine.setPath(null);
 }
 
 //
@@ -196,7 +196,11 @@ function updateMap(item, itemChangedType) {
 				
 				item.flightRoute = flightRoute;
 				
-				map.setCenter(positionFrom);
+				// TODO: Fit bounds to all objects in list				
+				var bounds = new google.maps.LatLngBounds();
+				bounds.extend(positionFrom);
+				bounds.extend(positionTo);
+				map.fitBounds(bounds);
 				
 			break;
 			
@@ -211,7 +215,13 @@ function updateMap(item, itemChangedType) {
 				
 				item.route = route;
 				
-				map.setCenter(positionFrom);
+				// TODO: Fit bounds to all objects in list				
+				var bounds = new google.maps.LatLngBounds();
+				bounds.extend(positionFrom);
+				bounds.extend(positionTo);
+				map.fitBounds(bounds);
+				
+				//map.setCenter(positionFrom);
 				
 			break;
 		
