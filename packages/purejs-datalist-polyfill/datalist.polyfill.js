@@ -140,8 +140,9 @@
         
         var buildList = function(e) {
         
-        	console.log("start buildlist");
-        
+        	//var timeStart = (new Date()).getTime();
+        	//console.log("start buildlist - fakeItems.length: " + fakeItems.length);
+        	
             // Build datalist
             fakeList.style.display = 'block';
             positionList();
@@ -150,20 +151,33 @@
             // Note: perhaps to SLOW to go to each of 10.000 elements
             // Note: perhaps create a data structure with first letter
             
+            // Note: removes all, not just ACTIVE_CLASS, but should be safe
+            var query = input.value.toLowerCase();
+            
+            var maxFound = 10;
+            var found = 0;
+                            
             eachItem( function(item) {
-                // Note: removes all, not just ACTIVE_CLASS, but should be safe
-                var query = input.value.toLowerCase();
                 
-                // Note: perhaps to SLOW
-                var isFound = query.length && item.innerText.toLowerCase().indexOf( query ) > -1;
+                var isFound = 
+                	found < maxFound &&
+                	query.length && 
+                	query.length >= 3 && 
+                	item.innerText.toLowerCase().indexOf( query ) > -1; // Note: perhaps to SLOW
                 
                 if( isFound ) {
                     visibleItems.push( item );
+                    found++;
                 }
-                
+
                 item.style.display = isFound ? 'block' : 'none';
+                
             } );
             
+            //var timeEnd = (new Date()).getTime();
+            //var timeElapsed = (timeEnd - timeStart) / 1000;
+            
+            //console.log("end buidlist - time: " + timeElapsed);
         };
         
         listen(input, 'keyup', buildList);
