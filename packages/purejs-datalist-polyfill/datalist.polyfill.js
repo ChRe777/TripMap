@@ -34,7 +34,9 @@
 	var fakeLists = {};
 
     for( var i = 0; i < inputs.length; i++ ) {
+    
         var input = inputs[i];
+    
         var listId = input.getAttribute('list');
         
         var datalist = document.getElementById(listId);

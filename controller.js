@@ -53,7 +53,7 @@ function init() {
 	
 	itemsChangedFunc = function(item, itemChangedType) {
 		updateList(items);
-		updateMap(item, itemChangedType);
+		updateMap(items, item, itemChangedType);
 	};
 }
 

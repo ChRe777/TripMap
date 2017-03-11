@@ -34,6 +34,8 @@ function initMap() {
 		scale: 4
 	};
 	
+	// Flight
+	//
 	polyLineStyleFlight = {
 		strokeColor: '#CC0099',
 		strokeOpacity: 1.0,
@@ -49,18 +51,12 @@ function initMap() {
 	};
 	
 	// Bus/Car/Train
-	
+	//
 	polyLineStyleRoute = {
 		strokeColor: '#770099',
 		strokeOpacity: 1.0,
-		/*icons: [{
-		  icon: lineSymbol,
-		  offset: '0',
-		  repeat: '15px'
-		}],
-		*/
 		strokeWeight: 3,
-		geodesic: true,
+		geodesic: false,
 		map: map
 	};
 
@@ -111,7 +107,6 @@ function addPolyLine(markerFrom, markerTo, style) {
 //
 function removePolyLine(polyLine) {
 	polyLine.setMap(null);
-	//polyLine.setPath(null);
 }
 
 //
@@ -179,7 +174,56 @@ function removeRoute(route) {
 //
 // updateMap
 // 
-function updateMap(item, itemChangedType) {
+function updateMap(items, item, itemChangedType) {
+
+	function updateFitBounds(items) {
+	
+		function getBoundsFlight(item) {
+			var bounds = new google.maps.LatLngBounds();
+			bounds.extend(item.flightRoute.markerFrom.getPosition());
+			bounds.extend(item.flightRoute.markerTo.getPosition());
+			return bounds;
+		}
+	
+		function getBoundsRoute(item) {
+			var bounds = new google.maps.LatLngBounds();
+			bounds.extend(item.route.markerFrom.getPosition());
+			bounds.extend(item.route.markerTo.getPosition());
+			return bounds;
+		}
+		
+		function getBoundsLocation(item) {
+			var bounds = new google.maps.LatLngBounds();
+			bounds.extend(item.position);
+			return bounds;
+		}
+	
+		var bounds = new google.maps.LatLngBounds();
+		
+		items.forEach(
+		
+			function(item) {
+	
+				switch (item.type) {
+		
+					case ITEM_TYPE.FLIGHT:					
+						bounds = bounds.union(getBoundsFlight(item));
+						break;
+				
+					case ITEM_TYPE.BUS_CAR_TRAIN:
+						bounds = bounds.union(getBoundsRoute(item));
+						break;
+			
+					case ITEM_TYPE.LOCATION:
+						bounds = bounds.union(getBoundsLocation(item));
+						break;
+				}
+			}
+		);
+		
+		map.fitBounds(bounds);
+		
+	}
 
 	function updateMapItemAdded(item) {
 	
@@ -249,13 +293,19 @@ function updateMap(item, itemChangedType) {
 			case ITEM_TYPE.FLIGHT:
 				removeFlightRoute(item.flightRoute);
 				item.flightRoute = null;
-			break;
+				break;
+			
+			// Bus, Car or Train
+			case ITEM_TYPE.BUS_CAR_TRAIN:
+				removeRoute(item.route);
+				item.route = null;
+				break;
 			
 			// Location
 			case ITEM_TYPE.LOCATION:
 				removeMarker(item.marker);
 				item.marker = null;
-			break;
+				break;
 		}
 		
 	}
@@ -266,5 +316,6 @@ function updateMap(item, itemChangedType) {
 	else if (itemChangedType == ITEMS_CHANGED_TYPE.ITEM_REMOVED) {
 		updateMapItemRemoved(item);
 	}
-		
+	
+	updateFitBounds(items);	
 }

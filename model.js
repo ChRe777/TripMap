@@ -50,6 +50,9 @@ function createFlightItem(airportFrom, airportTo) {
 	return item;
 }
 
+//
+// createRoadBusTrainItem
+// 
 function createRoadBusTrainItem(resultFrom, resultTo) {
 
 	var item = {
