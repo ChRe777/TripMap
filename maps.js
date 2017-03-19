@@ -28,24 +28,25 @@ function initMap() {
 	
 	map = new google.maps.Map(document.getElementById('map'), mapOptions);
 	
-	var lineSymbol = {
-		path: 'M 0,-2 0,0',
-		strokeOpacity: 1,
-		scale: 4
-	};
+	
+    // Define a symbol using SVG path notation, with an opacity of 1.
+    var lineSymbol = {
+        path: 'M 0 -1 L 0 2',
+        strokeOpacity: 1,
+        strokeWeight: 2,
+    };
 	
 	// Flight
 	//
 	polyLineStyleFlight = {
 		strokeColor: '#CC0099',
-		strokeOpacity: 1.0,
-		/*icons: [{
+		strokeOpacity: 0,
+		icons: [{
 		  icon: lineSymbol,
-		  offset: '0',
-		  repeat: '15px'
+		  offset: '50%',
+		  repeat: '10px'
 		}],
-		*/
-		strokeWeight: 3,
+		strokeWeight: 2,
 		geodesic: true,
 		map: map
 	};
@@ -55,7 +56,7 @@ function initMap() {
 	polyLineStyleRoute = {
 		strokeColor: '#770099',
 		strokeOpacity: 1.0,
-		strokeWeight: 3,
+		strokeWeight: 2,
 		geodesic: false,
 		map: map
 	};
@@ -72,8 +73,23 @@ function initMap() {
 //
 function addMarker(position) {
 
+	
+	// Origins, anchor positions and coordinates of the marker increase in the X
+  	// direction to the right and in the Y direction down.
+  	var image = {
+    	url: 'https://cdn0.iconfinder.com/data/icons/octicons/1024/primitive-dot-20.png',
+    	// This marker is 20 pixels wide by 32 pixels high.
+    	size: new google.maps.Size(10, 20),
+    	// The origin for this image is (0, 0).
+    	origin: new google.maps.Point(0, 0),
+    	// The anchor for this image is the base of the flagpole at (0, 32).
+    	anchor: new google.maps.Point(5, 10)
+  	};
+  
+	
 	var markerOpt = {
 		map: map,
+		icon : image,
 		position: position
 	};
 	
