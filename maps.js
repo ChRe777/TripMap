@@ -2,6 +2,8 @@
 // Module : Maps (View)
 // Author : Christoph Reif
 // Date	  : 2017-03-09
+//
+// Example: http://jsfiddle.net/mpsbhat/h6jskwws/2/
 // -------------------------------------------------------------------------------------------------
 
 var geocoder;
