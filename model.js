@@ -9,24 +9,24 @@
 // -------------------------------------------------------------------------------------------------
 
 var ITEM_SUB_TYPE = {
-	CAR				: 2^0,
-	BUS				: 2^1,
-	TRAIN 			: 2^2,
-	OTHER			: 2^8,
+	CAR				: 0,
+	BUS				: 1,
+	TRAIN 			: 2,
+	OTHER			: 256,
 };
 
 var ITEM_TYPE = {
-	FLIGHT   		: 2^0, 
-	LOCATION 		: 2^1,
-	BUS_CAR_TRAIN	: 2^2,
-	SHIP			: 2^3,
-	OTHER	 		: 2^8
+	FLIGHT   		: 0, 
+	LOCATION 		: 1,
+	BUS_CAR_TRAIN	: 2,
+	SHIP			: 3,
+	OTHER	 		: 256
 };
 
 var ITEMS_CHANGED_TYPE = {
-	ITEM_ADDED		: 2^0,
-	ITEM_REMOVED 	: 2^1,
-	ITEMS_CLEARED	: 2^2,
+	ITEM_ADDED		: 0,
+	ITEM_REMOVED 	: 1,
+	ITEMS_CLEARED	: 2,
 };
 
 // -------------------------------------------------------------------------------------------------

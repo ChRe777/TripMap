@@ -107,6 +107,26 @@ function addFlight() {
 // addRoad
 //
 function addRoad() {
+
+
+	function getSubType() {
+
+		var subtypes = document.getElementsByName('subtype');
+		var subtype;
+
+		for (var i = 0; i < subtypes.length; i++){
+			if (subtypes[i].checked) {
+				subtype = subtypes[i].value;
+			}
+		}
+	
+		switch (subtype) {
+			case "car"  : return ITEM_SUB_TYPE.CAR;
+			case "bus"  : return ITEM_SUB_TYPE.BUS;
+			case "train": return ITEM_SUB_TYPE.TRAIN;
+		}
+	
+	}
 	
 	var roadAddressFrom = document.getElementById("roadFromTextBox").value;
 	var roadAddressTo   = document.getElementById("roadToTextBox"  ).value;
@@ -140,7 +160,7 @@ function addRoad() {
 							var resultTo = resultsTo[0];
 							//var positionTo = resultTo.geometry.location;
 							
-							var item = createCarBusTrainItem(resultFrom, resultTo);
+							var item = createCarBusTrainItem(resultFrom, resultTo, getSubType());
 		
 							addItem(item);
 		

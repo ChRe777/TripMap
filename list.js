@@ -101,8 +101,9 @@ function writeLocation(list, item) {
 // writeItem 
 //
 function writeItem(list, item) {
+		
+	switch (item.type) {
 	
-	switch(item.type) {
 		case ITEM_TYPE.FLIGHT:
 			writeFlight(list, item);
 			break;

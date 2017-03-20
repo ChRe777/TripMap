@@ -9,6 +9,7 @@
 var geocoder;
 var map;
 
+
 // -------------------------------------------------------------------------------------------------
 // INIT
 // -------------------------------------------------------------------------------------------------
@@ -148,6 +149,8 @@ function removeRoute(route) {
 
 }
 
+
+
 // -------------------------------------------------------------------------------------------------
 // FACTORY - create or destroy map item by type
 // -------------------------------------------------------------------------------------------------
@@ -284,7 +287,21 @@ function createMapItem(item) {
 			// Bus, Car or Train
 			//
 			case ITEM_TYPE.BUS_CAR_TRAIN:
-				item.route = createCar(item);
+			
+				switch (item.subType) {
+					case ITEM_SUB_TYPE.CAR:
+						item.route = createCar(item);
+					break;
+					
+					case ITEM_SUB_TYPE.BUS:
+						item.route = createBus(item);
+					break;
+						
+					case ITEM_SUB_TYPE.TRAIN:
+						item.route = createTrain(item);
+					break;
+				}
+				
 			break;
 		
 			// Location
@@ -323,6 +340,7 @@ function destroyMapItem(item) {
 	}
 
 }
+
 
 // -------------------------------------------------------------------------------------------------
 // COMMANDS 
