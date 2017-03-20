@@ -140,11 +140,11 @@ function addRoad() {
 							var resultTo = resultsTo[0];
 							//var positionTo = resultTo.geometry.location;
 							
-							var item = createRoadBusTrainItem(resultFrom, resultTo);
+							var item = createCarBusTrainItem(resultFrom, resultTo);
 		
 							addItem(item);
 		
-							debugConsole("Add road/bus/train from " + roadAddressFrom + " to " + roadAddressTo);
+							debugConsole("Add car/bus/train from " + roadAddressFrom + " to " + roadAddressTo);
 		
 						} else {
 							if (status == "ZERO_RESULTS") {

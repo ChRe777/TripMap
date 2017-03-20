@@ -8,17 +8,25 @@
 // CONSTANTS
 // -------------------------------------------------------------------------------------------------
 
+var ITEM_SUB_TYPE = {
+	CAR				: 2^0,
+	BUS				: 2^1,
+	TRAIN 			: 2^2,
+	OTHER			: 2^8,
+};
+
 var ITEM_TYPE = {
-	FLIGHT   		: 0, 
-	LOCATION 		: 1,
-	BUS_CAR_TRAIN	: 2,
-	OTHER	 		: 99
+	FLIGHT   		: 2^0, 
+	LOCATION 		: 2^1,
+	BUS_CAR_TRAIN	: 2^2,
+	SHIP			: 2^3,
+	OTHER	 		: 2^8
 };
 
 var ITEMS_CHANGED_TYPE = {
-	ITEM_ADDED		: 0,
-	ITEM_REMOVED 	: 1,
-	ITEMS_CLEARED	: 2,
+	ITEM_ADDED		: 2^0,
+	ITEM_REMOVED 	: 2^1,
+	ITEMS_CLEARED	: 2^2,
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -51,13 +59,30 @@ function createFlightItem(airportFrom, airportTo) {
 }
 
 //
-// createRoadBusTrainItem
+// createShipItem 
+//
+function createShipItem(harborFrom, harborTo) {
+
+	var item = {
+		id			: itemId++,
+		type  		: ITEM_TYPE.SHIP,
+		flightRoute : null,
+		harborFrom 	: harborFrom,
+		harborFrom  : harborFrom
+	};
+	
+	return item;
+}
+
+//
+// createCarBusTrainItem
 // 
-function createRoadBusTrainItem(resultFrom, resultTo) {
+function createCarBusTrainItem(resultFrom, resultTo, subType) {
 
 	var item = {
 		id			: itemId++,
 		type 		: ITEM_TYPE.BUS_CAR_TRAIN,
+		subType		: subType,
 		route		: null,		// route on Map with 2 marker and polyline
 		resultFrom 	: resultFrom,
 		resultTo	: resultTo,
