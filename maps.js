@@ -37,9 +37,9 @@ function initMap() {
 // -------------------------------------------------------------------------------------------------
 
 //
-// addMarker
+// addDotMarker
 //
-function addMarker(position) {
+function addDotMarker(position) {
 
 	// Origins, anchor positions and coordinates of the marker increase in the X
   	// direction to the right and in the Y direction down.
@@ -56,6 +56,21 @@ function addMarker(position) {
 	var markerOpt = {
 		map: map,
 		icon : image,
+		position: position
+	};
+	
+	var marker = new google.maps.Marker(markerOpt);
+		
+	return marker;
+}
+
+//
+// addDefaultMarker
+//
+function addDefaultMarker(position) {
+ 
+	var markerOpt = {
+		map: map,
 		position: position
 	};
 	
@@ -96,8 +111,8 @@ function removePolyLine(polyLine) {
 //
 function addFlightRoute(positionFrom, positionTo, flightStyle) {
 
-	var markerFrom = addMarker  (positionFrom);
-	var markerTo   = addMarker  (positionTo  );
+	var markerFrom = addDotMarker  (positionFrom);
+	var markerTo   = addDotMarker  (positionTo  );
 	var polyLine   = addPolyLine(markerFrom, markerTo, flightStyle);
 	
 	var obj = {
@@ -125,8 +140,8 @@ function removeFlightRoute(flight) {
 //
 function addRoute(positionFrom, positionTo, routeStyle) {
 
-	var markerFrom = addMarker  (positionFrom);
-	var markerTo   = addMarker  (positionTo  );
+	var markerFrom = addDotMarker  (positionFrom);
+	var markerTo   = addDotMarker  (positionTo  );
 	var polyLine   = addPolyLine(markerFrom, markerTo, routeStyle);
 	
 	var obj = {
@@ -149,7 +164,19 @@ function removeRoute(route) {
 
 }
 
+//
+// addLocation
+//
+function addLocation(position) {
+	return addDefaultMarker(position);
+}
 
+//
+// removeLocation
+//
+function removeLocation(marker) {
+	removeMarker(marker);
+}
 
 // -------------------------------------------------------------------------------------------------
 // FACTORY - create or destroy map item by type
@@ -190,7 +217,7 @@ function createMapItem(item) {
 	function createCar(item) {
 	
 		var polyLineStyleCar = {
-			strokeColor: '#770099',
+			strokeColor: '#33ccff',
 			strokeOpacity: 1.0,
 			strokeWeight: 2,
 			geodesic: false,
@@ -207,7 +234,7 @@ function createMapItem(item) {
 	function createBus(item) {
 		
 		var polyLineStyleBus = {
-			strokeColor: '#220077',
+			strokeColor: '#0077ff',
 			strokeOpacity: 1.0,
 			strokeWeight: 3,
 			geodesic: false,
@@ -223,17 +250,18 @@ function createMapItem(item) {
 	function createTrain(item) {
 	
 	    var tLineStyle = {
-			path: 'M 0 -1 L 0 10 M 1 5 l 2 0',
+			path: 'M 0 -10 L 0 0 M 1 -5 l -2 0',
 			strokeOpacity: 1,
 			strokeWeight: 2,
+			scale: 1,
     	};
     
 		var polyLineStyleTrain = {
-			strokeColor: '#220022',
+			strokeColor: '#515151',
 			strokeOpacity: 0,
 			icons: [{
 			  icon: tLineStyle,
-			  offset: '50%',
+			  offset: '5px',
 			  repeat: '10px'
 			}],
 			strokeWeight: 2,

@@ -39,8 +39,8 @@ function writeFlight(list, item) {
 	var imgSrcPlane  = "https://cdn4.iconfinder.com/data/icons/aiga-symbol-signs/444/aiga_departingflights-16.png"
 	var imgSrcDelete = "https://cdn3.iconfinder.com/data/icons/basic-interface/100/delete-16.png";
 	
-	var imgPl = "<img src='" + imgSrcPlane + "'>";
-	var imgDe = "<img src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
+	var imgPl = "<img style='width:16px' src='" + imgSrcPlane + "'>";
+	var imgDe = "<img style='width:16px' src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 	
 	var text = imgPl + imgDe + " From: " + item.airportFrom.name + " To: " + item.airportTo.name;
 	addList(list, text);
@@ -51,10 +51,29 @@ function writeFlight(list, item) {
 //
 function writeBusCarTrain(list, item) {
 	
+	
+	function getIconPerSubType(subType) {
+	
+		var imgSrc;
+		
+		var imgSrcTrain  = "https://cdn2.iconfinder.com/data/icons/font-awesome/1792/train-16.png";
+		var imgSrcCar    = "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-16.png";
+		var imgSrcBus 	 = "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_bus_48px-16.png";
+		
+		switch (subType) {
+			case ITEM_SUB_TYPE.CAR	: imgSrc = imgSrcCar;   break;
+			case ITEM_SUB_TYPE.BUS	: imgSrc = imgSrcBus;   break;
+			case ITEM_SUB_TYPE.TRAIN: imgSrc = imgSrcTrain; break;
+		}
+		
+		return imgSrc;
+	}
+	
 	/*
 	var item = {
 		id			: itemId++,
 		type 		: ITEM_TYPE.BUS_CAR_TRAIN,
+		subType		: ITEM_SUB_TYPE.CAR,
 		route		: null,		// route on Map with 2 marker and polyline
 		resultFrom 	: resultFrom,
 		resultTo	: resultTo,
@@ -63,11 +82,10 @@ function writeBusCarTrain(list, item) {
 	};
 	*/
 	
-	
-	var imgSrcCar    = "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-16.png"
 	var imgSrcDelete = "https://cdn3.iconfinder.com/data/icons/basic-interface/100/delete-16.png";
+	var imgSrcItem = getIconPerSubType(item.subType);
 	
-	var imgCa = "<img src='" + imgSrcCar + "'>";
+	var imgCa = "<img src='" + imgSrcItem + "'>";
 	var imgDe = "<img src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 	
 	var text = imgCa + imgDe + " From: " + item.addressFrom + " To: " + item.addressTo;
