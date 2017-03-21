@@ -116,9 +116,15 @@
 				<input type="button" value="Add" onclick="addLocation()">
 
 				<br/><br/>
-			
 				
+				<b>Commands:</b><br/> 
+				<br/>
+				<input id="toggleListButton" type="button" value="Hide list" onclick="toggleList()">
+				
+				<br/><br/>
+	
 				<b>Output:</b><br/> 
+				<br/>
 				<div id="console" class="console"></div>
 			</td>
 			
@@ -130,13 +136,11 @@
 			</td>
 			
 			
-			
-			<td class="right">
+			<td id="right" class="right" >
 				<div id="list" class="list"></div>
 			</td>
 			
-	
-			
+
 		</tr>
 	</table>
 	
@@ -227,7 +231,7 @@
 			
 			createMapLegend(legend);
 			
-			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+			map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
 		};
 		main();
 	</script>

@@ -229,3 +229,15 @@ function addLocation() {
 	);
 }
 
+//
+// showHideList
+//
+function toggleList() {
+	showHideList();
+}
+
+
+
+
+
+
