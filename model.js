@@ -9,24 +9,24 @@
 // -------------------------------------------------------------------------------------------------
 
 var ITEM_SUB_TYPE = {
-	CAR				: 0,
-	BUS				: 1,
-	TRAIN 			: 2,
-	OTHER			: 256,
+	CAR				: "car",
+	BUS				: "bus",
+	TRAIN 			: "train",
+	OTHER			: "other",
 };
 
 var ITEM_TYPE = {
-	FLIGHT   		: 0, 
-	LOCATION 		: 1,
-	BUS_CAR_TRAIN	: 2,
-	SHIP			: 3,
-	OTHER	 		: 256
+	FLIGHT   		: "flight", 
+	SHIP			: "Ship",
+	LOCATION 		: "location",
+	BUS_CAR_TRAIN	: "bus_car_train",
+	OTHER	 		: "other"
 };
 
 var ITEMS_CHANGED_TYPE = {
-	ITEM_ADDED		: 0,
-	ITEM_REMOVED 	: 1,
-	ITEMS_CLEARED	: 2,
+	ITEM_ADDED		: "item_added",
+	ITEM_REMOVED 	: "item_removed",
+	ITEMS_CLEARED	: "items_cleared",
 };
 
 // -------------------------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ function createFlightItem(airportFrom, airportTo) {
 	var item = {
 		id			: itemId++,
 		type  		: ITEM_TYPE.FLIGHT,
-		flightRoute : null,
+		route 		: null,
 		airportFrom : airportFrom,
 		airportTo   : airportTo
 	};
@@ -61,14 +61,14 @@ function createFlightItem(airportFrom, airportTo) {
 //
 // createShipItem 
 //
-function createShipItem(harborFrom, harborTo) {
+function createShipItem(harbourFrom, harbourTo) {
 
 	var item = {
 		id			: itemId++,
 		type  		: ITEM_TYPE.SHIP,
-		flightRoute : null,
-		harborFrom 	: harborFrom,
-		harborFrom  : harborFrom
+		route 		: null,
+		harbourFrom : harbourFrom,
+		harbourTo  	: harbourTo,
 	};
 	
 	return item;
@@ -84,10 +84,10 @@ function createCarBusTrainItem(resultFrom, resultTo, subType) {
 		type 		: ITEM_TYPE.BUS_CAR_TRAIN,
 		subType		: subType,
 		route		: null,		// route on Map with 2 marker and polyline
-		resultFrom 	: resultFrom,
-		resultTo	: resultTo,
-		addressFrom : resultFrom.formatted_address,
-		addressTo   : resultTo.formatted_address,
+		addressFrom : resultFrom,
+		addressTo	: resultTo,
+		//addressFrom : resultFrom.formatted_address,
+		//addressTo   : resultTo.formatted_address,
 	};
 	
 	return item;
@@ -102,9 +102,7 @@ function createLocationItem(position, result) {
 		id		 	: itemId++,
 		type   	 	: ITEM_TYPE.LOCATION,
 		marker 	 	: null,
-		position 	: position,
-		adress	 	: result.formatted_address,
-		result	 	: result,
+		address	 	: result,
 	};
 	
 	return item;
@@ -135,11 +133,6 @@ function removeItemById(id) {
 		
 		   	items.splice(index, 1);
 		   	
-		   	// Fires item changed 
-			
-			// to remove from list
-			// to remoce from map
-			
 			itemsChangedFunc(item, ITEMS_CHANGED_TYPE.ITEM_REMOVED);
 			
 			debugConsole("Item with id " + item.id + " removed");

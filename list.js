@@ -30,7 +30,7 @@ function writeFlight(list, item) {
 	/*
 	var obj = {
 			type  		: ITEMTYPE.FLIGHT,
-			route 		: flightRoute,
+			route 		: Route,
 			airportFrom : airportFrom,
 			airportTo   : airportTo
 	};
@@ -42,7 +42,31 @@ function writeFlight(list, item) {
 	var imgPl = "<img style='width:16px' src='" + imgSrcPlane + "'>";
 	var imgDe = "<img style='width:16px' src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 	
-	var text = imgPl + imgDe + " From: " + item.airportFrom.name + " To: " + item.airportTo.name;
+	var text = imgPl + imgDe + " From: " + item.airportFrom.formatted_address + " To: " + item.airportTo.formatted_address;
+	addList(list, text);
+}
+
+//
+// writeShip
+//
+function writeShip(list, item) {
+	
+	/*
+	var obj = {
+			type  		: ITEMTYPE.SHIP,
+			route 		: route,
+			airportFrom : airportFrom,
+			airportTo   : airportTo
+	};
+	*/
+	
+	var imgSrcShip  = "https://cdn2.iconfinder.com/data/icons/picol-vector/32/transportation_ship-16.png"
+	var imgSrcDelete = "https://cdn3.iconfinder.com/data/icons/basic-interface/100/delete-16.png";
+	
+	var imgPl = "<img style='width:16px' src='" + imgSrcShip + "'>";
+	var imgDe = "<img style='width:16px' src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
+			
+	var text = imgPl + imgDe + " From: " + item.harbourFrom.formatted_address + " To: " + item.harbourTo.formatted_address;
 	addList(list, text);
 }
 
@@ -75,10 +99,8 @@ function writeBusCarTrain(list, item) {
 		type 		: ITEM_TYPE.BUS_CAR_TRAIN,
 		subType		: ITEM_SUB_TYPE.CAR,
 		route		: null,		// route on Map with 2 marker and polyline
-		resultFrom 	: resultFrom,
-		resultTo	: resultTo,
-		addressFrom : resultFrom.formatted_address,
-		addressTo   : resultTo.formatted_address,
+		addressFrom : addressFrom,
+		addressTo	: addressTo,
 	};
 	*/
 	
@@ -88,7 +110,7 @@ function writeBusCarTrain(list, item) {
 	var imgCa = "<img src='" + imgSrcItem + "'>";
 	var imgDe = "<img src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 	
-	var text = imgCa + imgDe + " From: " + item.addressFrom + " To: " + item.addressTo;
+	var text = imgCa + imgDe + " From: " + item.addressFrom.formatted_address + " To: " + item.addressTo.formatted_address;
 	addList(list, text);
 }
 
@@ -101,7 +123,7 @@ function writeLocation(list, item) {
 	var obj = {
 		type   	 : ITEMTYPE.LOCATION,
 		marker 	 : marker,
-		position : position
+		address  : address
 	};
 	*/
 	
@@ -111,7 +133,7 @@ function writeLocation(list, item) {
 	var imgPp = "<img src='" + imgSrcPushpin + "'>";
 	var imgDe = "<img src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 	
-	var text = imgPp + imgDe + " Location: " + item.adress;
+	var text = imgPp + imgDe + " Location: " + item.address.formatted_address;
 	addList(list, text);			
 }
 
@@ -125,6 +147,10 @@ function writeItem(list, item) {
 		case ITEM_TYPE.FLIGHT:
 			writeFlight(list, item);
 			break;
+			
+		case ITEM_TYPE.SHIP:
+			writeShip(list, item);
+		break;
 		
 		case ITEM_TYPE.BUS_CAR_TRAIN:
 			writeBusCarTrain(list, item);

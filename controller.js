@@ -57,15 +57,88 @@ function init() {
 	};
 }
 
+//
+// addFromTo
+//
+function addFromTo(addressFrom, addressTo, callOnResults) {
+
+	// ---- SNIP -----------------------------------------------------
+	
+	var geocoderRequestFrom = {
+		address: addressFrom
+	};
+
+	// ---- FROM -----
+	
+	geocoder.geocode(
+		geocoderRequestFrom,
+		function(resultsFrom, statusFrom) {
+		
+			if (statusFrom == "OK") {
+	
+				var resultFrom = resultsFrom[0];
+		
+				var geocoderRequestTo = {
+					address : addressTo
+				};
+
+				// ---- TO ----
+								
+				geocoder.geocode(
+					geocoderRequestTo,
+					function(resultsTo, statusTo) {
+					
+						if (statusTo == "OK") {
+						
+							var resultTo = resultsTo[0];
+							
+							callOnResults(resultFrom, resultTo);
+							
+						} else {
+							if (status == "ZERO_RESULTS") {
+								debugConsole("Address '" + harbourAddressTo + "' not found.");
+							}
+						}
+					}
+				);
+	
+			} else {
+				if (status == "ZERO_RESULTS") {
+					debugConsole("Address '" + harbourAddressFrom + "' not found.");
+				}
+			}
+		}
+	);
+}
+
 
 // -------------------------------------------------------------------------------------------------
 // COMMANDS 
 // -------------------------------------------------------------------------------------------------
 
 //
-// addFlight 
+// addFlight
 //
 function addFlight() {
+	
+	var airportNameFrom = document.getElementById("airportFromTextBox").value;
+	var airportNameTo   = document.getElementById("airportToTextBox"  ).value;
+	
+	function callOnResults(resultFrom, resultTo) {
+	
+		var item = createFlightItem(resultFrom, resultTo);
+		addItem(item);
+
+		debugConsole("Add flight from " + airportNameFrom + " to " + airportNameTo);
+	}
+	
+	addFromTo(airportNameFrom, airportNameTo, callOnResults);
+}
+
+//
+// addFlight 
+//
+function addFlighOLD() {
 
 	var airportNameFrom = document.getElementById("airportFromTextBox").value;
 	var airportNameTo   = document.getElementById("airportToTextBox"  ).value;
@@ -92,8 +165,7 @@ function addFlight() {
 	
 	if (airportFrom != undefined  
 	&&  airportTo   != undefined) {
-	
-				
+			
 		var item = createFlightItem(airportFrom, airportTo);
 		
 		addItem(item);
@@ -104,10 +176,133 @@ function addFlight() {
 }
 
 //
+// addShip
+//
+function addShip() {
+	
+	var harbourAddressFrom = document.getElementById("harbourFromTextBox").value;
+	var harbourAddressTo   = document.getElementById("harbourToTextBox"  ).value;
+	
+	function callOnResults(resultFrom, resultTo) {
+	
+		var item = createShipItem(resultFrom, resultTo);
+		addItem(item);
+
+		debugConsole("Add ship from " + harbourAddressFrom + " to " + harbourAddressTo);
+	}
+	
+	addFromTo(harbourAddressFrom, harbourAddressTo, callOnResults);
+}
+
+//
+// addShip
+//
+function addShipOld() {
+
+	var harbourAddressFrom = document.getElementById("harbourFromTextBox").value;
+	var harbourAddressTo   = document.getElementById("harbourToTextBox"  ).value;
+	
+	// ---- SNIP -----------------------------------------------------
+	
+	var geocoderRequestFrom = {
+		address: harbourAddressFrom
+	};
+
+	// ---- FROM -----
+	
+	geocoder.geocode(
+		geocoderRequestFrom,
+		function(resultsFrom, statusFrom) {
+		
+			if (statusFrom == "OK") {
+	
+				var resultFrom = resultsFrom[0];
+		
+				var geocoderRequestTo = {
+					address : harbourAddressTo
+				};
+
+				// ---- TO ----
+								
+				geocoder.geocode(
+					geocoderRequestTo,
+					function(resultsTo, statusTo) {
+					
+						if (statusTo == "OK") {
+						
+							var resultTo = resultsTo[0];
+							
+
+							//---------------------
+							var item = createShipItem(resultFrom, resultTo);
+		
+							addItem(item);
+		
+							debugConsole("Add ship from " + roadAddressFrom + " to " + roadAddressTo);
+							// --------------------------------
+							
+		
+						} else {
+							if (status == "ZERO_RESULTS") {
+								debugConsole("Address '" + harbourAddressTo + "' not found.");
+							}
+						}
+					}
+				);
+	
+			} else {
+				if (status == "ZERO_RESULTS") {
+					debugConsole("Address '" + harbourAddressFrom + "' not found.");
+				}
+			}
+		}
+	);
+	
+}
+
+//
 // addRoad
 //
 function addRoad() {
 
+	function getSelectedSubType() {
+
+		var subtypes = document.getElementsByName('subtype');
+		var subtype;
+
+		for (var i = 0; i < subtypes.length; i++){
+			if (subtypes[i].checked) {
+				subtype = subtypes[i].value;
+			}
+		}
+	
+		switch (subtype) {
+			case "car"  : return ITEM_SUB_TYPE.CAR;
+			case "bus"  : return ITEM_SUB_TYPE.BUS;
+			case "train": return ITEM_SUB_TYPE.TRAIN;
+		}
+	
+	}
+	
+	var roadAddressFrom = document.getElementById("roadFromTextBox").value;
+	var roadAddressTo   = document.getElementById("roadToTextBox"  ).value;
+	
+	function callOnResults(resultFrom, resultTo) {
+	
+		var item = createCarBusTrainItem(resultFrom, resultTo, getSelectedSubType());
+		addItem(item);
+
+		debugConsole("Add car/bus/train from " + roadAddressFrom + " to " + roadAddressTo);
+	}
+	
+	addFromTo(roadAddressFrom, roadAddressTo, callOnResults);
+	
+}
+
+//
+// addRoad
+//
+function addRoadOLD() {
 
 	function getSubType() {
 
@@ -131,35 +326,33 @@ function addRoad() {
 	var roadAddressFrom = document.getElementById("roadFromTextBox").value;
 	var roadAddressTo   = document.getElementById("roadToTextBox"  ).value;
 	
-	var foo = {
+	var geocoderRequestFrom = {
 		address: roadAddressFrom
 	};
 	
 	// ---- FROM -----
 	
 	geocoder.geocode(
-		foo,
+		geocoderRequestFrom,
 		function(resultsFrom, statusFrom) {
 		
 			if (statusFrom == "OK") {
 	
 				var resultFrom = resultsFrom[0];
-				//var positionFrom = resultFrom.geometry.location;
-
-				var bar = {
+		
+				var geocoderRequestTo = {
 					address : roadAddressTo
 				};
 
 				// ---- TO ----
 								
 				geocoder.geocode(
-					bar,
+					geocoderRequestTo,
 					function(resultsTo, statusTo) {
 						if (statusTo == "OK") {
 						
 							var resultTo = resultsTo[0];
-							//var positionTo = resultTo.geometry.location;
-							
+										
 							var item = createCarBusTrainItem(resultFrom, resultTo, getSubType());
 		
 							addItem(item);
@@ -183,7 +376,6 @@ function addRoad() {
 	);
 	
 }
-
 
 //
 // addLocation 

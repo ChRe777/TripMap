@@ -110,29 +110,14 @@ function removePolyLine(polyLine) {
 // addFlightRoute
 //
 function addFlightRoute(positionFrom, positionTo, flightStyle) {
-
-	var markerFrom = addDotMarker  (positionFrom);
-	var markerTo   = addDotMarker  (positionTo  );
-	var polyLine   = addPolyLine(markerFrom, markerTo, flightStyle);
-	
-	var obj = {
-		markerFrom 	: markerFrom,
-		markerTo 	: markerTo,
-		polyLine 	: polyLine
-	};
-	
-	return obj;
+	return addRoute(positionFrom, positionTo, flightStyle);
 }
 
 //
 // removeFlightRoute
 //
 function removeFlightRoute(flight) {
-
-	removeMarker(flight.markerFrom);
-	removeMarker(flight.markerTo);
-	removePolyLine(flight.polyLine);
-
+	removeRoute(flight);
 }
 
 //
@@ -187,6 +172,41 @@ function removeLocation(marker) {
 //
 function createMapItem(item) {
 
+	function getBoundsFlight(item) {
+	
+		var bounds = new google.maps.LatLngBounds();
+				
+		bounds.extend(item.airportFrom.geometry.location);
+		bounds.extend(item.airportTo.geometry.location);
+		
+		return bounds;
+	}
+	
+	function getBoundsShip(item) {
+		var bounds = new google.maps.LatLngBounds();
+				
+		bounds.extend(item.harbourFrom.geometry.location);
+		bounds.extend(item.harbourTo.geometry.location);
+		
+		return bounds;
+	}
+	
+	function getBoundsCarBusTrain(item) {
+	
+		var bounds = new google.maps.LatLngBounds();
+				
+		bounds.extend(item.addressFrom.geometry.location);
+		bounds.extend(item.addressTo.geometry.location);
+		
+		return bounds;
+	}
+	
+	function getBoundsLocation(item) {
+		var bounds = new google.maps.LatLngBounds();
+		bounds.extend(item.address.geometry.location);
+		return bounds;
+	}
+
 	function createFlight(item) {
 		
 		var shortDashedLineStyle = {
@@ -208,8 +228,8 @@ function createMapItem(item) {
 			map: map
 		};
 	
-		var positionFrom = new google.maps.LatLng(item.airportFrom.latitude, item.airportFrom.longitude);
-		var positionTo   = new google.maps.LatLng(item.airportTo.latitude,   item.airportTo.longitude  );
+		var positionFrom = item.airportFrom.geometry.location;
+		var positionTo   = item.airportTo.geometry.location;
 				
 		return addFlightRoute(positionFrom, positionTo, polyLineStyleFlight);		
 	};
@@ -224,8 +244,8 @@ function createMapItem(item) {
 			map: map
 		};
 		
-		var positionFrom = item.resultFrom.geometry.location;
-		var positionTo   = item.resultTo.geometry.location;
+		var positionFrom = item.addressFrom.geometry.location;
+		var positionTo   = item.addressTo.geometry.location;
 				
 		return addRoute(positionFrom, positionTo, polyLineStyleCar);
 		
@@ -241,8 +261,8 @@ function createMapItem(item) {
 			map: map
 		};
 	
-		var positionFrom = item.resultFrom.geometry.location;
-		var positionTo   = item.resultTo.geometry.location;
+		var positionFrom = item.addressFrom.geometry.location;
+		var positionTo   = item.addressTo.geometry.location;
 				
 		return addRoute(positionFrom, positionTo, polyLineStyleBus);
 	};
@@ -261,7 +281,7 @@ function createMapItem(item) {
 			strokeOpacity: 0,
 			icons: [{
 			  icon: tLineStyle,
-			  offset: '5px',
+			  offset: '50%',
 			  repeat: '10px'
 			}],
 			strokeWeight: 2,
@@ -269,8 +289,8 @@ function createMapItem(item) {
 			map: map
 		};
 	
-		var positionFrom = item.resultFrom.geometry.location;
-		var positionTo   = item.resultTo.geometry.location;
+		var positionFrom = item.addressFrom.geometry.location;
+		var positionTo   = item.addressTo.geometry.location;
 				
 		return addRoute(positionFrom, positionTo, polyLineStyleTrain);
 		
@@ -284,59 +304,75 @@ function createMapItem(item) {
         	strokeWeight: 2,
     	};
     
-		var polyLineStyleFlight = {
-			strokeColor: '#CC0099',
+		var polyLineStyleShip = {
+			strokeColor: '#ff3300',
 			strokeOpacity: 0,
 			icons: [{
 			  icon: longDashedLineStyle,
 			  offset: '50%',
-			  repeat: '10px'
+			  repeat: '15px'
 			}],
 			strokeWeight: 2,
 			geodesic: false,
 			map: map
 		};
-	
-		var positionFrom = new google.maps.LatLng(item.airportFrom.latitude, item.airportFrom.longitude);
-		var positionTo   = new google.maps.LatLng(item.airportTo.latitude,   item.airportTo.longitude  );
-				
-		return addFlightRoute(positionFrom, positionTo, polyLineStyleFlight);	
+		
+		var positionFrom = item.harbourFrom.geometry.location;
+		var positionTo   = item.harbourTo.geometry.location;
+			
+		return addRoute(positionFrom, positionTo, polyLineStyleShip);	
 		
 	}
 
+	function createLocation(item) {
+		return addDefaultMarker(item.address.geometry.location);
+	}
+	
 	switch (item.type) {
 		
 			// Flight
 			//
 			case ITEM_TYPE.FLIGHT:
-				item.flightRoute = createFlight(item);
-			break;
+				item.mapObj = createFlight(item);
+				item.bounds = getBoundsFlight(item);
+				break;
+			
+			// Flight
+			//
+			case ITEM_TYPE.SHIP:
+				item.mapObj = createShip(item);
+				item.bounds = getBoundsShip(item);
+				break;
 			
 			// Bus, Car or Train
 			//
 			case ITEM_TYPE.BUS_CAR_TRAIN:
 			
 				switch (item.subType) {
+				
 					case ITEM_SUB_TYPE.CAR:
-						item.route = createCar(item);
-					break;
+						item.mapObj = createCar(item);
+						break;
 					
 					case ITEM_SUB_TYPE.BUS:
-						item.route = createBus(item);
-					break;
+						item.mapObj = createBus(item);
+						break;
 						
 					case ITEM_SUB_TYPE.TRAIN:
-						item.route = createTrain(item);
-					break;
+						item.mapObj = createTrain(item);
+						break;
 				}
 				
-			break;
+				item.bounds = getBoundsCarBusTrain(item);
+	
+				break;
 		
 			// Location
 			//
 			case ITEM_TYPE.LOCATION:
-				item.marker = addDefaultMarker(item.position);
-			break;
+				item.mapObj = createLocation(item);
+				item.bounds = getBoundsLocation(item);
+				break;
 	}
 			
 }
@@ -350,20 +386,20 @@ function destroyMapItem(item) {
 	
 		// Flight
 		case ITEM_TYPE.FLIGHT:
-			removeFlightRoute(item.flightRoute);
-			item.flightRoute = null;
+			removeFlightRoute(item.mapObj);
+			item.mapObj = null;
 			break;
 		
 		// Bus, Car or Train
 		case ITEM_TYPE.BUS_CAR_TRAIN:
-			removeRoute(item.route);
-			item.route = null;
+			removeRoute(item.mapObj);
+			item.mapObj = null;
 			break;
 		
 		// Location
 		case ITEM_TYPE.LOCATION:
-			removeMarker(item.marker);
-			item.marker = null;
+			removeMarker(item.mapObj);
+			item.mapObj = null;
 			break;
 	}
 
@@ -381,51 +417,15 @@ function updateMap(items, item, itemChangedType) {
 
 	function updateFitBounds(items) {
 	
-		function getBoundsFlight(item) {
-			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(item.flightRoute.markerFrom.getPosition());
-			bounds.extend(item.flightRoute.markerTo.getPosition());
-			return bounds;
-		}
-	
-		function getBoundsRoute(item) {
-			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(item.route.markerFrom.getPosition());
-			bounds.extend(item.route.markerTo.getPosition());
-			return bounds;
-		}
-		
-		function getBoundsLocation(item) {
-			var bounds = new google.maps.LatLngBounds();
-			bounds.extend(item.position);
-			return bounds;
-		}
-	
 		var bounds = new google.maps.LatLngBounds();
-		
-		items.forEach(
-		
-			function(item) {
 	
-				switch (item.type) {
-		
-					case ITEM_TYPE.FLIGHT:					
-						bounds = bounds.union(getBoundsFlight(item));
-						break;
-				
-					case ITEM_TYPE.BUS_CAR_TRAIN:
-						bounds = bounds.union(getBoundsRoute(item));
-						break;
-			
-					case ITEM_TYPE.LOCATION:
-						bounds = bounds.union(getBoundsLocation(item));
-						break;
-				}
+		items.forEach(
+			function(item) {
+				bounds = bounds.union(item.bounds);
 			}
 		);
 		
 		map.fitBounds(bounds);
-		
 	}
 
 	function updateMapItemAdded(item) {
