@@ -110,7 +110,7 @@ function writeBusCarTrain(list, item) {
 	var imgCa = "<img src='" + imgSrcItem + "'>";
 	var imgDe = "<img src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 	
-	var text = imgCa + imgDe + " From: " + item.addressFrom.formatted_address + " To: " + item.addressTo.formatted_address;
+	var text = imgCa + "&nbsp;" + imgDe + " From: " + item.addressFrom.formatted_address + " To: " + item.addressTo.formatted_address;
 	addList(list, text);
 }
 
@@ -133,7 +133,7 @@ function writeLocation(list, item) {
 	var imgPp = "<img src='" + imgSrcPushpin + "'>";
 	var imgDe = "<img src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 	
-	var text = imgPp + imgDe + " Location: " + item.address.formatted_address;
+	var text = imgPp + "&nbsp;" + imgDe + " Location: " + item.address.formatted_address;
 	addList(list, text);			
 }
 
@@ -150,7 +150,7 @@ function writeItem(list, item) {
 			
 		case ITEM_TYPE.SHIP:
 			writeShip(list, item);
-		break;
+			break;
 		
 		case ITEM_TYPE.BUS_CAR_TRAIN:
 			writeBusCarTrain(list, item);

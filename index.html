@@ -51,6 +51,25 @@
 			background-color: #efefef;
 			border			: 0px solid #ccc;
 		}
+		
+		#legend {
+			font-family: Arial, sans-serif;
+			font-size: 10px;
+			background: #fff;
+			padding: 5px;
+			margin: 10px;
+			border: 0px solid grey;
+			box-shadow: 0 2px 2px 0 #C2C2C2;
+			border-radius: 4px;
+		}
+		
+		#legend h3 {
+			margin-top: 0;
+		}
+		
+		#legend img {
+			vertical-align: middle;
+		}
 	
 	</style>
 
@@ -107,6 +126,7 @@
 			
 			<td class="middle">
 				<div id="map" class="map"></div>
+				<div id="legend"></div>
 			</td>
 			
 			
@@ -202,6 +222,12 @@
 	<script>
 		var main = function() {
 			init();
+			
+			var legend = document.getElementById('legend');
+			
+			createMapLegend(legend);
+			
+			map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 		};
 		main();
 	</script>

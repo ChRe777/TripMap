@@ -167,6 +167,57 @@ function removeLocation(marker) {
 // FACTORY - create or destroy map item by type
 // -------------------------------------------------------------------------------------------------
 
+function createMapLegend(legend) {
+
+	var items = [
+		{
+			name: "Flight",
+			path: "M 0 3 l 8 0   m 2 0 l 8 0   m 2 0 l 8 0   m 2 0 l 8 0",
+			color: '#CC0099',
+			strokeWidth: 2,
+		},
+		{
+			name: "Car",
+			path: "M 0 3 l 50 0 ",
+			color: '#33ccff',
+			strokeWidth: 2,
+		},
+		{
+			name: "Bus",
+			path: "M 0 3 l 50 0 ",
+			color: '#0077ff',
+			strokeWidth: 3,
+		},
+		{
+			name: "Train",
+			path: "M 0 3 l 8 0 l 0 -2 l 0 4   l 0 -2 l 8 0 l 0 -2 l 0 4   l 0 -2 l 8 0 l 0 -2 l 0 4   l 0 -2 l 8 0 l 0 -2 l 0 4  l 0 -2 l 8 0 l 0 -2 l 0 4",
+			color: '#515151',
+			strokeWidth: 2,
+		},
+		{
+			name: "Ship",
+			path: "M 0 3 l 12 0   m 2 0 l 12 0  m 2 0 l 12 0",
+			color: '#ff3300',
+			strokeWidth: 2,
+		}
+	];
+	
+	function createLegendItem(item) {
+		var name = item.name;
+		var path = item.path;
+		var color = item.color;
+		var strokeWidth = item.strokeWidth;
+	
+		var div = document.createElement('div');
+		div.innerHTML = '<svg style="width:35px; height:5px; border:0px solid green;"><path stroke="'+color+'" stroke-width="'+strokeWidth+'" fill="none" d="' + path + '" /></svg>&nbsp;' + name;
+	
+		legend.appendChild(div);
+	}
+	
+	items.forEach(createLegendItem);
+}
+
+
 //
 // createMapItem
 //
@@ -423,6 +474,10 @@ function updateMap(items, item, itemChangedType) {
 
 	function updateFitBounds(items) {
 	
+		if (items.length == 0) {
+			return;
+		}
+
 		var bounds = new google.maps.LatLngBounds();
 	
 		items.forEach(

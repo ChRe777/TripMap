@@ -136,46 +136,6 @@ function addFlight() {
 }
 
 //
-// addFlight 
-//
-function addFlighOLD() {
-
-	var airportNameFrom = document.getElementById("airportFromTextBox").value;
-	var airportNameTo   = document.getElementById("airportToTextBox"  ).value;
-
-	var airportFrom = getAirportByName(airportNameFrom, airports);
-	var airportTo   = getAirportByName(airportNameTo,   airports);
-	
-	// DEBUG
-	
-	if (DEBUG) {
-	
-		debugConsole(JSON.stringify(airportFrom) + "<br/>");
-		debugConsole(JSON.stringify(  airportTo) + "<br/>");
-		
-		var text = 
-			"airportFrom Lat:" + airportFrom.latitude + "<br/>"+
-			"airportTo   Lat:" +   airportTo.latitude + "<br/>";
-		
-		debugConsole(text);
-	
-	}
-	
-	// DEBUG
-	
-	if (airportFrom != undefined  
-	&&  airportTo   != undefined) {
-			
-		var item = createFlightItem(airportFrom, airportTo);
-		
-		addItem(item);
-		
-		debugConsole("Add flight from " + airportFrom.name + " to " + airportTo.name);
-	}
-	
-}
-
-//
 // addShip
 //
 function addShip() {
@@ -192,72 +152,6 @@ function addShip() {
 	}
 	
 	addFromTo(harbourAddressFrom, harbourAddressTo, callOnResults);
-}
-
-//
-// addShip
-//
-function addShipOld() {
-
-	var harbourAddressFrom = document.getElementById("harbourFromTextBox").value;
-	var harbourAddressTo   = document.getElementById("harbourToTextBox"  ).value;
-	
-	// ---- SNIP -----------------------------------------------------
-	
-	var geocoderRequestFrom = {
-		address: harbourAddressFrom
-	};
-
-	// ---- FROM -----
-	
-	geocoder.geocode(
-		geocoderRequestFrom,
-		function(resultsFrom, statusFrom) {
-		
-			if (statusFrom == "OK") {
-	
-				var resultFrom = resultsFrom[0];
-		
-				var geocoderRequestTo = {
-					address : harbourAddressTo
-				};
-
-				// ---- TO ----
-								
-				geocoder.geocode(
-					geocoderRequestTo,
-					function(resultsTo, statusTo) {
-					
-						if (statusTo == "OK") {
-						
-							var resultTo = resultsTo[0];
-							
-
-							//---------------------
-							var item = createShipItem(resultFrom, resultTo);
-		
-							addItem(item);
-		
-							debugConsole("Add ship from " + roadAddressFrom + " to " + roadAddressTo);
-							// --------------------------------
-							
-		
-						} else {
-							if (status == "ZERO_RESULTS") {
-								debugConsole("Address '" + harbourAddressTo + "' not found.");
-							}
-						}
-					}
-				);
-	
-			} else {
-				if (status == "ZERO_RESULTS") {
-					debugConsole("Address '" + harbourAddressFrom + "' not found.");
-				}
-			}
-		}
-	);
-	
 }
 
 //
@@ -296,84 +190,6 @@ function addRoad() {
 	}
 	
 	addFromTo(roadAddressFrom, roadAddressTo, callOnResults);
-	
-}
-
-//
-// addRoad
-//
-function addRoadOLD() {
-
-	function getSubType() {
-
-		var subtypes = document.getElementsByName('subtype');
-		var subtype;
-
-		for (var i = 0; i < subtypes.length; i++){
-			if (subtypes[i].checked) {
-				subtype = subtypes[i].value;
-			}
-		}
-	
-		switch (subtype) {
-			case "car"  : return ITEM_SUB_TYPE.CAR;
-			case "bus"  : return ITEM_SUB_TYPE.BUS;
-			case "train": return ITEM_SUB_TYPE.TRAIN;
-		}
-	
-	}
-	
-	var roadAddressFrom = document.getElementById("roadFromTextBox").value;
-	var roadAddressTo   = document.getElementById("roadToTextBox"  ).value;
-	
-	var geocoderRequestFrom = {
-		address: roadAddressFrom
-	};
-	
-	// ---- FROM -----
-	
-	geocoder.geocode(
-		geocoderRequestFrom,
-		function(resultsFrom, statusFrom) {
-		
-			if (statusFrom == "OK") {
-	
-				var resultFrom = resultsFrom[0];
-		
-				var geocoderRequestTo = {
-					address : roadAddressTo
-				};
-
-				// ---- TO ----
-								
-				geocoder.geocode(
-					geocoderRequestTo,
-					function(resultsTo, statusTo) {
-						if (statusTo == "OK") {
-						
-							var resultTo = resultsTo[0];
-										
-							var item = createCarBusTrainItem(resultFrom, resultTo, getSubType());
-		
-							addItem(item);
-		
-							debugConsole("Add car/bus/train from " + roadAddressFrom + " to " + roadAddressTo);
-		
-						} else {
-							if (status == "ZERO_RESULTS") {
-								debugConsole("Address '" + roadAddressTo + "' not found.");
-							}
-						}
-					}
-				);
-	
-			} else {
-				if (status == "ZERO_RESULTS") {
-					debugConsole("Address '" + roadAddressFrom + "' not found.");
-				}
-			}
-		}
-	);
 	
 }
 
