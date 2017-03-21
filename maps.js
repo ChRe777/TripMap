@@ -335,7 +335,7 @@ function createMapItem(item) {
 			// Location
 			//
 			case ITEM_TYPE.LOCATION:
-				item.marker = addMarker(item.position);
+				item.marker = addDefaultMarker(item.position);
 			break;
 	}
 			
