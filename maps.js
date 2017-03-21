@@ -386,10 +386,16 @@ function destroyMapItem(item) {
 	
 		// Flight
 		case ITEM_TYPE.FLIGHT:
-			removeFlightRoute(item.mapObj);
+			removeRoute(item.mapObj);
 			item.mapObj = null;
 			break;
 		
+		// Ship
+		case ITEM_TYPE.SHIP:
+			removeRoute(item.mapObj);
+			item.mapObj = null;
+			break;
+			
 		// Bus, Car or Train
 		case ITEM_TYPE.BUS_CAR_TRAIN:
 			removeRoute(item.mapObj);
