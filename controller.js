@@ -111,6 +111,96 @@ function addFromTo(addressFrom, addressTo, callOnResults) {
 	);
 }
 
+//
+// addFromToOnRoad
+//
+function addFromToOnRoad(addressFrom, addressTo, adressOver) {
+
+	function getLocation(address) {
+	
+		geocoder.geocode(
+			address,
+			function(results, statusTo) {
+			
+				if (statusTo == "OK") {
+				
+					var resultTo = resultsTo[0];
+					
+					
+				} else {
+					if (status == "ZERO_RESULTS") {
+						debugConsole("Address '" + harbourAddressTo + "' not found.");
+					}
+				}
+			}
+		);
+				
+	}
+
+
+	function createWayPoints(adressOver) {
+
+		var wayPoints = [];
+		
+		if (adressOver == undefined) {
+			return wayPoints;
+		}
+  
+		var wayPoint = {
+        	location : getLocation(adressOver),
+        	stopover : true
+    	}
+
+    	wayPoints.push(wayPoint);
+    	
+    	return wayPoints;
+    }
+    
+    function debugRoute(route) {
+    
+		for (var i = 0; i < route.legs.length; i++) {
+		
+			var text = "";
+		
+			var routeSegment = i + 1;
+			text += '<b>Route Segment: ' + routeSegment + '</b><br>';
+			text += route.legs[i].start_address + ' to ';
+			text += route.legs[i].end_address + '<br>';
+			text += route.legs[i].distance.text + '<br><br>';
+			
+			debugConsole(text);
+		}
+    }
+    
+    directionsService.route(
+    {
+    	origin: addressFrom,
+    	destination: addressTo,
+    	waypoints: createWayPoints(adressOver),
+    	optimizeWaypoints: true,
+    	travelMode: google.maps.TravelMode.DRIVING
+  	}, 
+  	function(response, status) {
+  	
+    	if (status === google.maps.DirectionsStatus.OK) {
+      		
+      		
+      		// Create Item with response
+      		// add this route to display
+      		
+      		directionsDisplay.setDirections(response);
+      		
+      		var route = response.routes[0];
+      		
+			debugRoute(route);
+
+   		} else {
+      		debugConsole('Directions request failed due to ' + status);
+    	}
+  	}
+  	);
+    
+}
 
 // -------------------------------------------------------------------------------------------------
 // COMMANDS 
@@ -190,6 +280,22 @@ function addRoad() {
 	}
 	
 	addFromTo(roadAddressFrom, roadAddressTo, callOnResults);
+	
+}
+
+//
+// addRoadtest
+//
+function addRoadTest() {
+
+	var roadAddressFrom   = document.getElementById("roadTestFromTextBox").value;
+	var roadAddressTo     = document.getElementById("roadTestToTextBox"  ).value;
+	var roadAddressOver   = document.getElementById("roadTestToTextBox"  ).value;
+	
+	if (roadAddressOver === "")
+		roadAddressOver = undefined;
+	
+	addFromToOnRoad(roadAddressFrom, roadAddressTo, roadAddressOver);
 	
 }
 

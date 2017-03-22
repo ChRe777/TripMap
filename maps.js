@@ -8,6 +8,8 @@
 
 var geocoder;
 var map;
+var directionsService;
+var directionsDisplay
 
 
 // -------------------------------------------------------------------------------------------------
@@ -30,6 +32,20 @@ function initLegend() {
 }
 
 //
+// initDirectionService
+// 
+function initDirectionService() {
+
+	// https://developers.google.com/maps/documentation/javascript/examples/directions-waypoints?hl=de
+	
+ 	directionsService = new google.maps.DirectionsService;
+  	directionsDisplay = new google.maps.DirectionsRenderer;
+  	
+  	directionsDisplay.setMap(map);
+  
+}
+
+//
 // initMap 
 //
 function initMap() {
@@ -37,6 +53,8 @@ function initMap() {
 	createGeocoder();
 
 	createMap();
+	
+	initDirectionService();
 	
 	initLegend();
 	
