@@ -13,6 +13,7 @@ var DEBUG = false;
 function debugConsole(text) {
 	var console = document.getElementById("console");
 	console.innerHTML = console.innerHTML + text + "<br/>";
+	console.scrollTop = console.scrollHeight;
 }
 
 // -------------------------------------------------------------------------------------------------

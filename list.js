@@ -187,5 +187,23 @@ function updateList(items) {
 	writeItems(list, items);
 }
 
+//
+// showHideList
+//
+function showHideList() {
+
+	var list = document.getElementById("right");
+	var button = document.getElementById("toggleListButton");
+	
+	if (button.value == "Show List") {
+		button.value = "Hide List";
+		list.style.display = "block";
+	} else {
+		button.value = "Show List";
+		list.style.display = "none";
+	}
+
+}
+
 
 
