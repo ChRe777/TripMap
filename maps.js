@@ -11,30 +11,44 @@ var map;
 
 
 // -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 // INIT
 // -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
+
+//
+// initLegend
+// 
+function initLegend() {
+
+	var legend = document.getElementById('legend');
+			
+	createMapLegend(legend);
+			
+	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+}
 
 //
 // initMap 
 //
 function initMap() {
 
-    geocoder = new google.maps.Geocoder();
+	createGeocoder();
+
+	createMap();
 	
-    var latlngCenter = new google.maps.LatLng(0, 0);
-	
-    var mapOptions = {
-		zoom	: 1,
-		center	: latlngCenter
-    };
-	
-	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	initLegend();
 	
 }
 
+
+// -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // LIBRARY
 // -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 
 //
 // addDotMarker
@@ -163,12 +177,47 @@ function removeLocation(marker) {
 	removeMarker(marker);
 }
 
+
+
+// -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // FACTORY - create or destroy map item by type
 // -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
+
+//
+// createMap
+// 
+function createMap() {
+
+	var latlngCenter = new google.maps.LatLng(0, 0);
+	
+    var mapOptions = {
+		zoom	: 1,
+		center	: latlngCenter
+    };
+	
+	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+}
+
+//
+// createGeocoder
+// 
+function createGeocoder() {
+
+	geocoder = new google.maps.Geocoder();
+	
+}
+
+//
+// createMapLegend
+// 
 function createMapLegend(legend) {
 
+
+
+			
 	var items = [
 		{
 			name: "Flight",
@@ -216,7 +265,6 @@ function createMapLegend(legend) {
 	
 	items.forEach(createLegendItem);
 }
-
 
 //
 // createMapItem
@@ -463,9 +511,13 @@ function destroyMapItem(item) {
 }
 
 
+
+// -------------------------------------------------------------------------------------------------
 // -------------------------------------------------------------------------------------------------
 // COMMANDS 
 // -------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
+
 
 //
 // updateMap

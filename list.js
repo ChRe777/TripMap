@@ -42,7 +42,7 @@ function writeFlight(list, item) {
 	var imgPl = "<img style='width:16px' src='" + imgSrcPlane + "'>";
 	var imgDe = "<img style='width:16px' src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 	
-	var text = imgPl + imgDe + " From: " + item.airportFrom.formatted_address + " To: " + item.airportTo.formatted_address;
+	var text = imgPl + "&nbsp;" + imgDe + " From: " + item.airportFrom.formatted_address + " To: " + item.airportTo.formatted_address;
 	addList(list, text);
 }
 
@@ -66,7 +66,7 @@ function writeShip(list, item) {
 	var imgPl = "<img style='width:16px' src='" + imgSrcShip + "'>";
 	var imgDe = "<img style='width:16px' src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
 			
-	var text = imgPl + imgDe + " From: " + item.harbourFrom.formatted_address + " To: " + item.harbourTo.formatted_address;
+	var text = imgPl + "&nbsp;" + imgDe + " From: " + item.harbourFrom.formatted_address + " To: " + item.harbourTo.formatted_address;
 	addList(list, text);
 }
 
