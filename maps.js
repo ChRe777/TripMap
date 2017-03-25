@@ -9,7 +9,6 @@
 var geocoder;
 var map;
 var directionsService;
-var directionsDisplay
 
 
 // -------------------------------------------------------------------------------------------------
@@ -24,11 +23,15 @@ var directionsDisplay
 // 
 function initLegend() {
 
+	function positionLegendOnMap(legend) {
+		map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
+	}
+
 	var legend = document.getElementById('legend');
 			
 	createMapLegend(legend);
-			
-	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
+	
+	positionLegendOnMap(legend);
 }
 
 //
@@ -39,10 +42,7 @@ function initDirectionService() {
 	// https://developers.google.com/maps/documentation/javascript/examples/directions-waypoints?hl=de
 	
  	directionsService = new google.maps.DirectionsService;
-  	directionsDisplay = new google.maps.DirectionsRenderer;
-  	
-  	directionsDisplay.setMap(map);
-  
+
 }
 
 //
@@ -125,10 +125,23 @@ function addPolyLine(markerFrom, markerTo, style) {
 
 	var path = [markerFrom.getPosition(), markerTo.getPosition()];
 	
-	geodesicPoly = new google.maps.Polyline(style);
-	geodesicPoly.setPath(path);
+	var polyline = new google.maps.Polyline(style);
+	polyline.setPath(path);
 	
-	return geodesicPoly;
+	return polyline;
+}
+
+//
+// addPolyLineWithPath
+//
+function addPolyLineWithPath(path, style) {
+
+	//var path = [markerFrom.getPosition(), markerTo.getPosition()];
+	
+	var polyline = new google.maps.Polyline(style);
+	polyline.setPath(path);
+	
+	return polyline;
 }
 
 //
@@ -171,6 +184,27 @@ function addRoute(positionFrom, positionTo, routeStyle) {
 }
 
 //
+// addRoadRoute
+//
+function addRoadRoute(path, routeRoadStyle) {
+
+	var positionFrom = path[0];
+	var positionTo   = path[path.length - 1];
+
+	var markerFrom = addDotMarker  (positionFrom);
+	var markerTo   = addDotMarker  (positionTo  );
+	var polyLine   = addPolyLineWithPath(path, routeRoadStyle);
+	
+	var obj = {
+		markerFrom 	: markerFrom,
+		markerTo 	: markerTo,
+		polyLine 	: polyLine
+	};
+	
+	return obj;
+}
+
+//
 // removeRoute
 //
 function removeRoute(route) {
@@ -187,7 +221,7 @@ function removeRoute(route) {
 
 function addRouteOnRoad() {
 			
-		//directionsDisplay.setDirections(response);
+		//directionsRenderer.setDirections(response);
 			
 		//var route = response.routes[0];
 			
@@ -232,6 +266,7 @@ function createMap() {
     };
 	
 	map = new google.maps.Map(document.getElementById('map'), mapOptions);
+	
 }
 
 //
@@ -248,9 +283,6 @@ function createGeocoder() {
 // 
 function createMapLegend(legend) {
 
-
-
-			
 	var items = [
 		{
 			name: "Flight",
@@ -297,6 +329,8 @@ function createMapLegend(legend) {
 	}
 	
 	items.forEach(createLegendItem);
+	
+	
 }
 
 //
@@ -470,15 +504,81 @@ function createMapItem(item) {
 	
 	function createRoad(item) {
 	
+	 	var tLineStyle = {
+			path: 'M 0 -10 L 0 0 M 1 -5 l -2 0',
+			strokeOpacity: 1,
+			strokeWeight: 2,
+			scale: 1,
+    	};
+    
+		var polyLineStyleTrain = {
+			strokeColor: '#515151',
+			strokeOpacity: 0,
+			icons: [{
+			  icon: tLineStyle,
+			  offset: '50%',
+			  repeat: '10px'
+			}],
+			strokeWeight: 2,
+			geodesic: true,
+			map: map
+		};
 	
-	 	directionsDisplay.setDirections(item.response);
+		var polyLineStyleRoad = {
+			strokeColor: '#ff0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 4,
+			geodesic: false,
+			map: map
+		};
+		
+		// https://mapicons.mapsmarker.com/markers/transportation/aerial-transportation/airport/
+		
+		// Origins, anchor positions and coordinates of the marker increase in the X
+		// direction to the right and in the Y direction down.
+		var image = {
+			url: 'https://cdn0.iconfinder.com/data/icons/octicons/1024/primitive-dot-20.png',
+			// This marker is 20 pixels wide by 32 pixels high.
+			size: new google.maps.Size(10, 20),
+			// The origin for this image is (0, 0).
+			origin: new google.maps.Point(0, 0),
+			// The anchor for this image is the base of the flagpole at (0, 32).
+			anchor: new google.maps.Point(5, 10)
+		};
+  	
+		var markerStyleRoad = {
+			icon : image,
+		};
+	
+	
+		//https://developers.google.com/maps/documentation/javascript/reference#DirectionsRendererOptions
+	
+	  	var directionsRenderer = new google.maps.DirectionsRenderer;
+  	
+  		directionsRenderer.setMap(map);
+  	
+	 	directionsRenderer.setDirections(item.response);
+	 	
+	 	var foo = {
+	 		suppressMarkers : false,
+	 		polylineOptions : polyLineStyleTrain,
+	 		markerOptions	: markerStyleRoad,
+	 	};
+	 	
+	 	directionsRenderer.setOptions(foo);
+	 	
+	 	//directionsRenderer.setMap(null);
 	 
 		//var encodedPolyLine = item.result.overview_polyline;
 		
-		//var points = google.maps.geometry.encoding.decodePath(encodedPolyLine);
+		//var path = google.maps.geometry.encoding.decodePath(encodedPolyLine);
+		
+		//return addRoadRoute(path, polyLineStyleRoad);
 		
 		// https://developers.google.com/maps/documentation/utilities/polylineutility?hl=de
 		// google.maps.geometry.encoding.encodePath()
+		
+		item.directionsRenderer = directionsRenderer;
 	}
 	
 	
@@ -569,6 +669,16 @@ function destroyMapItem(item) {
 			removeMarker(item.mapObj);
 			item.mapObj = null;
 			break;
+		
+		// Road	
+		case ITEM_TYPE.ROAD:
+			//removeRouteRoad(item);
+			
+			item.directionsRenderer.setMap(null);
+			
+			//item.mapObj = null;
+			break;
+			
 	}
 
 }

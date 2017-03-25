@@ -338,9 +338,9 @@ function addRoadTest() {
 
 	var roadAddressFrom   = document.getElementById("roadTestFromTextBox").value;
 	var roadAddressTo     = document.getElementById("roadTestToTextBox"  ).value;
-	var roadAddressOver   = document.getElementById("roadTestOverTextBox").value;
+	var roadAddressVia   = document.getElementById("roadTestViaTextBox").value;
 	
-	addFromToOnRoad(roadAddressFrom, roadAddressTo, roadAddressOver);
+	addFromToOnRoad(roadAddressFrom, roadAddressTo, roadAddressVia);
 	
 }
 

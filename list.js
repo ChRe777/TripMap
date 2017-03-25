@@ -121,6 +121,7 @@ function writeRoad(list, item) {
 	
 	var text = "Road TODO";
 	addList(list, text);
+	
 }
 
 //
@@ -170,7 +171,7 @@ function writeItem(list, item) {
 			break;
 			
 		case ITEM_TYPE.ROAD:
-			writeRoad(list, item);
+			writeBusCarTrain(list, item);
 			break;
 	}
 }
