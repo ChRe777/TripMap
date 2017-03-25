@@ -304,6 +304,7 @@ function createMapLegend(legend) {
 //
 function createMapItem(item) {
 
+	
 	function getBoundsFlight(item) {
 	
 		var bounds = new google.maps.LatLngBounds();
@@ -338,6 +339,13 @@ function createMapItem(item) {
 		bounds.extend(item.address.geometry.location);
 		return bounds;
 	}
+	
+	function getBoundsRoad(item) {
+		var bounds = new google.maps.LatLngBounds();
+		bounds.union(item.result.bounds);
+		return bounds;	
+	}
+	
 
 	function createFlight(item) {
 		
@@ -460,6 +468,21 @@ function createMapItem(item) {
 		return addDefaultMarker(item.address.geometry.location);
 	}
 	
+	function createRoad(item) {
+	
+	
+	 	directionsDisplay.setDirections(item.response);
+	 
+		//var encodedPolyLine = item.result.overview_polyline;
+		
+		//var points = google.maps.geometry.encoding.decodePath(encodedPolyLine);
+		
+		// https://developers.google.com/maps/documentation/utilities/polylineutility?hl=de
+		// google.maps.geometry.encoding.encodePath()
+	}
+	
+	
+	
 	switch (item.type) {
 		
 			// Flight
@@ -504,6 +527,13 @@ function createMapItem(item) {
 			case ITEM_TYPE.LOCATION:
 				item.mapObj = createLocation(item);
 				item.bounds = getBoundsLocation(item);
+				break;
+				
+			// Road
+			//
+			case ITEM_TYPE.ROAD:
+				item.mapObj = createRoad(item);
+				item.bounds = getBoundsRoad(item);
 				break;
 	}
 			

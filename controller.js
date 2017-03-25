@@ -197,20 +197,41 @@ function addFromToOnRoad(addressFrom, addressTo, addressOver) {
  */   
     function getRoute(addresses, wayPoints) {
     
+    	/*
+    	a= {
+  origin: a,
+  destination: new google.maps.LatLng(this.options.lat, this.options.lng),
+  travelMode: google.maps.TravelMode.TRANSIT,
+  transitOptions: {
+    modes: [google.maps.TransitMode.TRAIN]
+  }
+};
+
+    	*/
+    
 		directionsService.route(
 			{
-				origin		: addresses.addressFrom,
-				destination	: addresses.addressTo,
-				waypoints	: wayPoints,
-				optimizeWaypoints : true,
-				travelMode	: google.maps.TravelMode.DRIVING
+				origin			: addresses.addressFrom,
+				destination		: addresses.addressTo,
+				/*waypoints		: wayPoints,
+				optimizeWaypoints : true,*/
+				/*travelMode	: google.maps.TravelMode.DRIVING,*/
+				travelMode		: google.maps.TravelMode.TRANSIT,
+				transitOptions : {
+					modes: [google.maps.TransitMode.TRAIN]
+				}
 			}, 
 			function(response, status) {
 	
 				if (status === google.maps.DirectionsStatus.OK) {
 			
-					var firstRoute = response.routes[0];
+					var result = response.routes[0];
 					
+					var item = createRoadItem(addresses, result, response, ITEM_SUB_TYPE.CAR /*TODO*/);
+				
+					addItem(item);
+					
+					debugConsole('Add road with Directions request ' + status);
 
 				} else {
 					debugConsole('Directions request failed due to ' + status);

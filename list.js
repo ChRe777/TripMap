@@ -115,6 +115,15 @@ function writeBusCarTrain(list, item) {
 }
 
 //
+// writeRoad
+//
+function writeRoad(list, item) {
+	
+	var text = "Road TODO";
+	addList(list, text);
+}
+
+//
 // writeLocation 
 //
 function writeLocation(list, item) {
@@ -158,6 +167,10 @@ function writeItem(list, item) {
 		
 		case ITEM_TYPE.LOCATION:
 			writeLocation(list, item);
+			break;
+			
+		case ITEM_TYPE.ROAD:
+			writeRoad(list, item);
 			break;
 	}
 }

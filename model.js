@@ -20,7 +20,8 @@ var ITEM_TYPE = {
 	SHIP			: "Ship",
 	LOCATION 		: "location",
 	BUS_CAR_TRAIN	: "bus_car_train",
-	OTHER	 		: "other"
+	ROAD			: "road",
+	OTHER	 		: "other",
 };
 
 var ITEMS_CHANGED_TYPE = {
@@ -86,8 +87,24 @@ function createCarBusTrainItem(resultFrom, resultTo, subType) {
 		route		: null,		// route on Map with 2 marker and polyline
 		addressFrom : resultFrom,
 		addressTo	: resultTo,
-		//addressFrom : resultFrom.formatted_address,
-		//addressTo   : resultTo.formatted_address,
+	};
+	
+	return item;
+}
+
+//
+// createRoadItem
+//
+function createRoadItem(addresses, result, response, subType) {
+	var item = {
+		id			: itemId++,	
+		type 		: ITEM_TYPE.ROAD, // TODO: to change
+		subType		: subType,	
+		response	: response,
+		addressFrom	: addresses.addressFrom,
+		addressTo	: addresses.addressTo,
+		addressOver : addresses.addressOver,
+		result		: result,
 	};
 	
 	return item;
