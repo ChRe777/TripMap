@@ -28,7 +28,7 @@ function initLegend() {
 			
 	createMapLegend(legend);
 			
-	map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+	map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
 }
 
 //
