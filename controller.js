@@ -114,40 +114,49 @@ function addFromTo(addressFrom, addressTo, callOnResults) {
 //
 // addFromToOnRoad
 //
-function addFromToOnRoad(addressFrom, addressTo, adressOver) {
+function addFromToOnRoad(addressFrom, addressTo, addressOver) {
 
-	function getLocation(address) {
+
+	function addressFound(status) {
+		return status == "OK";
+	}
+	
+	function takeFirstResult(results) {
+		return results[0];
+	}
+	
+
+	function getLocation(addresses, getRouteFunc) {
+	
+		var foo = {
+			address: addresses.addressOver
+		};
 	
 		geocoder.geocode(
-			address,
-			function(results, statusTo) {
+			foo,
+			function(results, status) {
 			
-				if (statusTo == "OK") {
+				if (addressFound(status)) {
 				
-					var resultTo = resultsTo[0];
+					var firstResult = takeFirstResult(results);
 					
+					var wayPoints = createWayPoints(firstResult);
 					
-				} else {
-					if (status == "ZERO_RESULTS") {
-						debugConsole("Address '" + harbourAddressTo + "' not found.");
-					}
+					getRouteFunc(addresses, wayPoints);
+					
 				}
 			}
-		);
+			
+		)
 				
 	}
 
-
-	function createWayPoints(adressOver) {
+	function createWayPoints(addressResult) {
 
 		var wayPoints = [];
 		
-		if (adressOver == undefined) {
-			return wayPoints;
-		}
-  
 		var wayPoint = {
-        	location : getLocation(adressOver),
+        	location : addressResult.geometry.location,
         	stopover : true
     	}
 
@@ -155,7 +164,7 @@ function addFromToOnRoad(addressFrom, addressTo, adressOver) {
     	
     	return wayPoints;
     }
-    
+ /*   
     function debugRoute(route) {
     
 		for (var i = 0; i < route.legs.length; i++) {
@@ -171,34 +180,52 @@ function addFromToOnRoad(addressFrom, addressTo, adressOver) {
 			debugConsole(text);
 		}
     }
+   */ 
+/*
+    function createRouteItem(response) {
     
-    directionsService.route(
-    {
-    	origin: addressFrom,
-    	destination: addressTo,
-    	waypoints: createWayPoints(adressOver),
-    	optimizeWaypoints: true,
-    	travelMode: google.maps.TravelMode.DRIVING
-  	}, 
-  	function(response, status) {
-  	
-    	if (status === google.maps.DirectionsStatus.OK) {
-      		
-      		
-      		// Create Item with response
-      		// add this route to display
-      		
-      		directionsDisplay.setDirections(response);
-      		
-      		var route = response.routes[0];
-      		
-			debugRoute(route);
+    	// Create Item with response
+		// add this route to display
+			
+		directionsDisplay.setDirections(response);
+			
+		var route = response.routes[0];
+			
+		debugRoute(route);
+					
+    }
+ */   
+    function getRoute(addresses, wayPoints) {
+    
+		directionsService.route(
+			{
+				origin		: addresses.addressFrom,
+				destination	: addresses.addressTo,
+				waypoints	: wayPoints,
+				optimizeWaypoints : true,
+				travelMode	: google.maps.TravelMode.DRIVING
+			}, 
+			function(response, status) {
+	
+				if (status === google.maps.DirectionsStatus.OK) {
+			
+					var firstRoute = response.routes[0];
+					
 
-   		} else {
-      		debugConsole('Directions request failed due to ' + status);
-    	}
+				} else {
+					debugConsole('Directions request failed due to ' + status);
+				}
+			}
+		);
   	}
-  	);
+  	
+  	var addresses = {
+  		addressFrom : addressFrom, 
+  		addressTo 	: addressTo, 
+  		addressOver : addressOver, 
+  	};
+  	
+  	getLocation(addresses, getRoute);
     
 }
 
@@ -290,10 +317,7 @@ function addRoadTest() {
 
 	var roadAddressFrom   = document.getElementById("roadTestFromTextBox").value;
 	var roadAddressTo     = document.getElementById("roadTestToTextBox"  ).value;
-	var roadAddressOver   = document.getElementById("roadTestToTextBox"  ).value;
-	
-	if (roadAddressOver === "")
-		roadAddressOver = undefined;
+	var roadAddressOver   = document.getElementById("roadTestOverTextBox").value;
 	
 	addFromToOnRoad(roadAddressFrom, roadAddressTo, roadAddressOver);
 	

@@ -182,6 +182,21 @@ function removeRoute(route) {
 }
 
 //
+// addRouteOnRoad
+//
+
+function addRouteOnRoad() {
+			
+		//directionsDisplay.setDirections(response);
+			
+		//var route = response.routes[0];
+			
+		//debugRoute(route);
+					
+}
+
+
+//
 // addLocation
 //
 function addLocation(position) {
