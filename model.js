@@ -15,6 +15,12 @@ var ITEM_SUB_TYPE = {
 	OTHER			: "other",
 };
 
+var ITEM_TRAVEL_TYPE = {
+	CAR				: "car",
+	BUS				: "bus",
+	TRAIN			: "train",
+};
+
 var ITEM_TYPE = {
 	FLIGHT   		: "flight", 
 	SHIP			: "Ship",

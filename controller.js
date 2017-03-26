@@ -114,7 +114,7 @@ function addFromTo(addressFrom, addressTo, callOnResults) {
 //
 // addFromToOnRoad
 //
-function addFromToOnRoad(addressFrom, addressTo, addressOver) {
+function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 
 
 	function addressFound(status) {
@@ -164,62 +164,64 @@ function addFromToOnRoad(addressFrom, addressTo, addressOver) {
     	
     	return wayPoints;
     }
- /*   
-    function debugRoute(route) {
-    
-		for (var i = 0; i < route.legs.length; i++) {
-		
-			var text = "";
-		
-			var routeSegment = i + 1;
-			text += '<b>Route Segment: ' + routeSegment + '</b><br>';
-			text += route.legs[i].start_address + ' to ';
-			text += route.legs[i].end_address + '<br>';
-			text += route.legs[i].distance.text + '<br><br>';
-			
-			debugConsole(text);
-		}
-    }
-   */ 
-/*
-    function createRouteItem(response) {
-    
-    	// Create Item with response
-		// add this route to display
-			
-		directionsDisplay.setDirections(response);
-			
-		var route = response.routes[0];
-			
-		debugRoute(route);
-					
-    }
- */   
+  
     function getRoute(addresses, wayPoints) {
     
-    	/*
-    	a= {
-  origin: a,
-  destination: new google.maps.LatLng(this.options.lat, this.options.lng),
-  travelMode: google.maps.TravelMode.TRANSIT,
-  transitOptions: {
-    modes: [google.maps.TransitMode.TRAIN]
-  }
-};
-
-    	*/
+    	// https://developers.google.com/maps/documentation/javascript/directions?hl=de#TransitOptions
+        
+    	function getTravelMode(travelType) {
+    		
+    		var tavelMode = google.maps.TravelMode.DRIVING;
+    		
+    		if (travelType == ITEM_TRAVEL_TYPE.CAR) {	
+    			travelMode = google.maps.TravelMode.DRIVING;
+    		} else {
+    			travelMode = google.maps.TravelMode.TRANSIT;
+    		}
+    		
+    		return travelMode;
+    	}
+    	
+    	function getTransitOptions(travelType) {
+    		
+    		var transOptions = { };
+    		
+    		if (travelType == ITEM_TRAVEL_TYPE.CAR) {
+    			transOptions = { };
+    		}
+    		
+    		if (travelType == ITEM_TRAVEL_TYPE.BUS) {
+    			transitOptions = {
+					modes: [google.maps.TransitMode.BUS]
+				};
+			}
+			
+			if (travelType == ITEM_TRAVEL_TYPE.TRAIN) {
+    			transitOptions = {
+					modes: [google.maps.TransitMode.TRAIN]
+				};
+			} 
+			
+			return transOptions;
+    	}
     
+    	// BUS, RAIL (Train, Subway, Tram ...), TRAIN, SUBWAY, TRAM,
+    
+    	var travelMode 		= getTravelMode(travelType);
+    	var transitOptions 	= getTransitOptions(travelType);
+    	
 		directionsService.route(
 			{
 				origin			: addresses.addressFrom,
 				destination		: addresses.addressTo,
-				/*waypoints		: wayPoints,
-				optimizeWaypoints : true,*/
-				/*travelMode	: google.maps.TravelMode.DRIVING,*/
-				travelMode		: google.maps.TravelMode.TRANSIT,
-				transitOptions : {
-					modes: [google.maps.TransitMode.TRAIN]
-				}
+				
+				/*
+				waypoints		  : wayPoints,
+				optimizeWaypoints : true,
+				*/
+				
+				travelMode	   : travelMode,
+				transitOptions : transitOptions,
 			}, 
 			function(response, status) {
 	
@@ -227,7 +229,7 @@ function addFromToOnRoad(addressFrom, addressTo, addressOver) {
 			
 					var result = response.routes[0];
 					
-					var item = createRoadItem(addresses, result, response, ITEM_SUB_TYPE.CAR /*TODO*/);
+					var item = createRoadItem(addresses, result, response, travelType);
 				
 					addItem(item);
 					
@@ -336,11 +338,32 @@ function addRoad() {
 //
 function addRoadTest() {
 
-	var roadAddressFrom   = document.getElementById("roadTestFromTextBox").value;
-	var roadAddressTo     = document.getElementById("roadTestToTextBox"  ).value;
+	function getSelectedTravelType() {
+
+		var travelTypes = document.getElementsByName('travelType');
+		var travelType;
+
+		for (var i = 0; i < travelTypes.length; i++){
+			if (travelTypes[i].checked) {
+				travelType = travelTypes[i].value;
+			}
+		}
+	
+		switch (travelType) {
+			case "car"  : return ITEM_TRAVEL_TYPE.CAR;
+			case "bus"  : return ITEM_TRAVEL_TYPE.BUS;
+			case "train": return ITEM_TRAVEL_TYPE.TRAIN;
+		}
+	
+	}
+	
+	var travelType = getSelectedTravelType();
+
+	var roadAddressFrom  = document.getElementById("roadTestFromTextBox").value;
+	var roadAddressTo    = document.getElementById("roadTestToTextBox"  ).value;
 	var roadAddressVia   = document.getElementById("roadTestViaTextBox").value;
 	
-	addFromToOnRoad(roadAddressFrom, roadAddressTo, roadAddressVia);
+	addFromToOnRoad(travelType, roadAddressFrom, roadAddressTo, roadAddressVia);
 	
 }
 

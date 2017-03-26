@@ -523,6 +523,14 @@ function createMapItem(item) {
 			geodesic: true,
 			map: map
 		};
+		
+		var polyLineStyleTrain2 = {
+			strokeColor: '#515151',
+			strokeOpacity: 1,
+			strokeWeight: 4,
+			geodesic: false,
+			map: map
+		};
 	
 		var polyLineStyleRoad = {
 			strokeColor: '#ff0000',
@@ -561,7 +569,7 @@ function createMapItem(item) {
 	 	
 	 	var foo = {
 	 		suppressMarkers : false,
-	 		polylineOptions : polyLineStyleTrain,
+	 		polylineOptions : polyLineStyleTrain2,
 	 		markerOptions	: markerStyleRoad,
 	 	};
 	 	
