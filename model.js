@@ -101,11 +101,11 @@ function createCarBusTrainItem(resultFrom, resultTo, subType) {
 //
 // createRoadItem
 //
-function createRoadItem(addresses, result, response, subType) {
+function createRoadItem(addresses, result, response, travelType) {
 	var item = {
 		id			: itemId++,	
-		type 		: ITEM_TYPE.ROAD, // TODO: to change
-		subType		: subType,	
+		type 		: ITEM_TYPE.ROAD,
+		travelType	: travelType,	
 		response	: response,
 		addressFrom	: addresses.addressFrom,
 		addressTo	: addresses.addressTo,

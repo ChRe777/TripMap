@@ -177,19 +177,18 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
     	//
     	// https://developers.google.com/maps/documentation/javascript/directions?hl=de#TransitOptions
         
+        // getTravelMode
+        // 
     	function getTravelMode(travelType) {
     		
-    		var tavelMode = google.maps.TravelMode.DRIVING;
-    		
-    		if (travelType == ITEM_TRAVEL_TYPE.CAR) {	
-    			travelMode = google.maps.TravelMode.DRIVING;
-    		} else {
-    			travelMode = google.maps.TravelMode.TRANSIT;
-    		}
-    		
-    		return travelMode;
+    		if (travelType == ITEM_TRAVEL_TYPE.CAR)	
+    			return google.maps.TravelMode.DRIVING;
+    			    		
+    		return google.maps.TravelMode.TRANSIT;
     	}
     	
+    	// getTransitOptions
+    	// 
     	function getTransitOptions(travelType) {
     		
     		var transOptions = { };

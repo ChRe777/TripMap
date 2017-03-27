@@ -388,20 +388,7 @@ function createMapItem(item) {
         	strokeOpacity: 1,
         	strokeWeight: 2,
     	};
-    	
-    	var planeStart = {
-    		path 			: "M98 325c-9 10 10 16 25 6l311-156c24-17 35-25 42-50 2-15-46-11-78-7-15 1-34 10-42 16l-56 35 1-1-169-31c-14-3-24-5-37-1-10 5-18 10-27 18l122 72c4 3 5 7 1 9l-44 27-75-15c-10-2-18-4-28 0-8 4-14 9-20 15l74 63z",
-    		labelOrigin	    : new google.maps.Point(0, 0),
-    		anchor			: new google.maps.Point(300, 300),
-    		strokeOpacity	: 1,
-    		fillOpacity		: 1,
-        	strokeWeight	: 2,
-        	scale 			: 0.05,
-        	rotation		: -90,
-        	strokeColor		: '#000000',
-        	fillColor		: '#C1C1C1',
-    	};
-    	
+    	    	
     	// Size 512x512
     	
     	var planeIcon = {
@@ -428,7 +415,7 @@ function createMapItem(item) {
 				{
 					icon	: planeIcon,
 					offset	: '25%',
-					repeat	: '33%',
+					repeat	: '50%',
 				}
 			],
 			strokeWeight: 2,
@@ -538,60 +525,75 @@ function createMapItem(item) {
 	
 	function createRoad(item) {
 	
-	 	var tLineStyle = {
-			path: 'M 0 -10 L 0 0 M 1 -5 l -2 0',
-			strokeOpacity: 1,
-			strokeWeight: 2,
-			scale: 1,
-    	};
+		// getPolyLineStyle
+		//
+    	function getPolyLineStyle(travelType) {
     
-		var polyLineStyleTrain = {
-			strokeColor: '#515151',
-			strokeOpacity: 0,
-			icons: [{
-			  icon: tLineStyle,
-			  offset: '50%',
-			  repeat: '10px'
-			}],
-			strokeWeight: 2,
-			geodesic: true,
-			map: map
-		};
-		
-		var polyLineStyleTrain2 = {
-			strokeColor: '#515151',
-			strokeOpacity: 1,
-			strokeWeight: 4,
-			geodesic: false,
-			map: map
-		};
+
+			// Car
+			//
+			var polyLineStyleCar = {
+				strokeColor: '#33ccff',
+				strokeOpacity: 1.0,
+				strokeWeight: 4,
+				geodesic: false,
+				map: map
+			};
 	
-		var polyLineStyleRoad = {
-			strokeColor: '#ff0000',
-			strokeOpacity: 1.0,
-			strokeWeight: 4,
-			geodesic: false,
-			map: map
-		};
+			// Train
+			//	
+			var polyLineStyleTrain = {
+				strokeColor: '#515151',
+				strokeOpacity: 1,
+				strokeWeight: 4,
+				geodesic: false,
+				map: map
+			};
+		
+			// Bus
+			//
+			var polyLineStyleBus = {
+				strokeColor: '#0077ff',
+				strokeOpacity: 1.0,
+				strokeWeight: 4,
+				geodesic: false,
+				map: map
+			};
+	
+			// Other
+			var polyLineStyleOther = {
+				strokeColor: '#ff0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 4,
+				geodesic: false,
+				map: map
+			};
+			
+				
+			if (travelType == ITEM_TRAVEL_TYPE.CAR)
+				return polyLineStyleCar;
+			
+			if (travelType == ITEM_TRAVEL_TYPE.BUS)
+				return polyLineStyleBus;
+				
+			if (travelType == ITEM_TRAVEL_TYPE.TRAIN)
+				return polyLineStyleTrain;
+				
+			return polyLineStyleOther;
+		}
 		
 		// https://mapicons.mapsmarker.com/markers/transportation/aerial-transportation/airport/
 		
-		// Origins, anchor positions and coordinates of the marker increase in the X
-		// direction to the right and in the Y direction down.
-		var image = {
-			url: 'https://cdn0.iconfinder.com/data/icons/octicons/1024/primitive-dot-20.png',
-			// This marker is 20 pixels wide by 32 pixels high.
-			size: new google.maps.Size(10, 20),
-			// The origin for this image is (0, 0).
-			origin: new google.maps.Point(0, 0),
-			// The anchor for this image is the base of the flagpole at (0, 32).
-			anchor: new google.maps.Point(5, 10)
+		var dotMarkerIcon = {
+			url		: 'https://cdn0.iconfinder.com/data/icons/octicons/1024/primitive-dot-20.png',
+			size	: new google.maps.Size(10, 20),
+			origin	: new google.maps.Point(0, 0),
+			anchor	: new google.maps.Point(5, 10)
 		};
   	
 		var markerStyleRoad = {
-			icon : image,
+			icon : dotMarkerIcon,
 		};
-	
 	
 		//https://developers.google.com/maps/documentation/javascript/reference#DirectionsRendererOptions
 	
@@ -599,27 +601,15 @@ function createMapItem(item) {
   	
   		directionsRenderer.setMap(map);
   	
-	 	directionsRenderer.setDirections(item.response);
-	 	
-	 	var foo = {
+	 	var options = {
 	 		suppressMarkers : false,
-	 		polylineOptions : polyLineStyleTrain2,
+	 		polylineOptions : getPolyLineStyle(item.travelType),
 	 		markerOptions	: markerStyleRoad,
 	 	};
 	 	
-	 	directionsRenderer.setOptions(foo);
-	 	
-	 	//directionsRenderer.setMap(null);
-	 
-		//var encodedPolyLine = item.result.overview_polyline;
-		
-		//var path = google.maps.geometry.encoding.decodePath(encodedPolyLine);
-		
-		//return addRoadRoute(path, polyLineStyleRoad);
-		
-		// https://developers.google.com/maps/documentation/utilities/polylineutility?hl=de
-		// google.maps.geometry.encoding.encodePath()
-		
+	 	directionsRenderer.setOptions(options);
+	 	directionsRenderer.setDirections(item.response);
+	 			
 		item.directionsRenderer = directionsRenderer;
 	}
 	
@@ -634,7 +624,7 @@ function createMapItem(item) {
 				item.bounds = getBoundsFlight(item);
 				break;
 			
-			// Flight
+			// Ship
 			//
 			case ITEM_TYPE.SHIP:
 				item.mapObj = createShip(item);
