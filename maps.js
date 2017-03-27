@@ -388,15 +388,49 @@ function createMapItem(item) {
         	strokeOpacity: 1,
         	strokeWeight: 2,
     	};
-    
+    	
+    	var planeStart = {
+    		path 			: "M98 325c-9 10 10 16 25 6l311-156c24-17 35-25 42-50 2-15-46-11-78-7-15 1-34 10-42 16l-56 35 1-1-169-31c-14-3-24-5-37-1-10 5-18 10-27 18l122 72c4 3 5 7 1 9l-44 27-75-15c-10-2-18-4-28 0-8 4-14 9-20 15l74 63z",
+    		labelOrigin	    : new google.maps.Point(0, 0),
+    		anchor			: new google.maps.Point(300, 300),
+    		strokeOpacity	: 1,
+    		fillOpacity		: 1,
+        	strokeWeight	: 2,
+        	scale 			: 0.05,
+        	rotation		: -90,
+        	strokeColor		: '#000000',
+        	fillColor		: '#C1C1C1',
+    	};
+    	
+    	// Size 512x512
+    	
+    	var planeIcon = {
+    		path			: "M438.8,320.6c-3.6-3.1-147.2-107.2-147.2-107.2c-0.2-0.2-0.4-0.4-0.5-0.5c-5.5-5.6-5.2-10.4-5.6-18.8c0,0-0.9-69-2.2-92  S270,64,256,64c0,0,0,0,0,0s0,0,0,0c-14,0-25.9,15-27.2,38s-2.2,92-2.2,92c-0.4,8.4-0.1,13.2-5.6,18.8c-0.2,0.2-0.4,0.4-0.5,0.5  c0,0-143.5,104.1-147.2,107.2s-9.2,7.8-9.2,18.2c0,12.2,3.6,13.7,10.6,11.6c0,0,140.2-39.5,145.4-40.8s7.9,0.6,8.3,7.5  s0.8,46.4,0.9,51s-0.6,4.7-2.9,7.4l-32,40.8c-1.7,2-2.7,4.5-2.7,7.3c0,0,0,6.1,0,12.4s2.8,7.3,8.2,4.9s32.6-17.4,32.6-17.4  c0.7-0.3,4.6-1.9,6.4-1.9c4.2,0,8-0.1,8.8,6.2c1.3,11.4,4.9,20.3,8.5,20.3c0,0,0,0,0,0s0,0,0,0c3.6,0,7.2-8.9,8.5-20.3  c0.7-6.3,4.6-6.2,8.8-6.2c1.8,0,5.7,1.6,6.4,1.9c0,0,27.2,15,32.6,17.4s8.2,1.4,8.2-4.9s0-12.4,0-12.4c0-2.8-1-5.4-2.7-7.3l-32-40.8  c-2.3-2.7-2.9-2.9-2.9-7.4s0.5-44.1,0.9-51s3.1-8.8,8.3-7.5s145.4,40.8,145.4,40.8c7.1,2.1,10.6,0.6,10.6-11.6  C448,328.4,442.5,323.7,438.8,320.6z",
+			anchor			: new google.maps.Point(256, 256),
+			strokeOpacity	: 1,
+    		fillOpacity		: 1,
+        	strokeWeight	: 1,
+        	scale 			: 0.05,
+        	rotation		: 0,
+        	strokeColor		: '#000000',
+        	fillColor		: '#000000',
+		};
+		
 		var polyLineStyleFlight = {
 			strokeColor: '#CC0099',
 			strokeOpacity: 0,
-			icons: [{
-			  icon: shortDashedLineStyle,
-			  offset: '50%',
-			  repeat: '10px'
-			}],
+			icons: [
+				{
+			  		icon	: shortDashedLineStyle,
+			  		offset	: '50%',
+			  		repeat	: '10px'
+				},
+				{
+					icon	: planeIcon,
+					offset	: '25%',
+					repeat	: '33%',
+				}
+			],
 			strokeWeight: 2,
 			geodesic: true,
 			map: map

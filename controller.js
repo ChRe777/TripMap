@@ -167,6 +167,14 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
   
     function getRoute(addresses, wayPoints) {
     
+    	// TRANSIT
+    	//
+    	//  - BUS
+    	//  - RAIL (Train, Subway, Tram ...) 
+    	//  - TRAIN
+    	//  - SUBWAY 
+    	//  - TRAM
+    	//
     	// https://developers.google.com/maps/documentation/javascript/directions?hl=de#TransitOptions
         
     	function getTravelMode(travelType) {
@@ -204,8 +212,6 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 			
 			return transOptions;
     	}
-    
-    	// BUS, RAIL (Train, Subway, Tram ...), TRAIN, SUBWAY, TRAM,
     
     	var travelMode 		= getTravelMode(travelType);
     	var transitOptions 	= getTransitOptions(travelType);
