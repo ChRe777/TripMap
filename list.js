@@ -118,8 +118,36 @@ function writeBusCarTrain(list, item) {
 // writeRoad
 //
 function writeRoad(list, item) {
+
+
+	function getIconPerTravelType(travelType) {
 	
-	var text = "Road TODO";
+		var imgSrc;
+		
+		var imgSrcBusGoogle = "http://maps.gstatic.com/mapfiles/transit/iw2/6/bus2.png";
+		
+		var imgSrcTrain  = "https://cdn2.iconfinder.com/data/icons/font-awesome/1792/train-16.png";
+		var imgSrcCar    = "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_car_48px-16.png";
+		var imgSrcBus 	 = "https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_directions_bus_48px-16.png";
+		
+		switch (travelType) {
+			case ITEM_TRAVEL_TYPE.CAR	: imgSrc = imgSrcCar;   break;
+			case ITEM_TRAVEL_TYPE.BUS	: imgSrc = imgSrcBus;   break;
+			case ITEM_TRAVEL_TYPE.TRAIN : imgSrc = imgSrcTrain; break;
+		}
+		
+		return imgSrc;
+	}
+	
+	
+	var imgSrcDelete = "https://cdn3.iconfinder.com/data/icons/basic-interface/100/delete-16.png";
+	var imgSrcItem = getIconPerTravelType(item.travelType);
+	
+	var imgCa = "<img src='" + imgSrcItem + "'>";
+	var imgDe = "<img src='" + imgSrcDelete + "' onclick='removeItemById("+item.id+")'>";
+	
+	var text = imgCa + "&nbsp;" + imgDe + " From: " + item.addressFrom + " To: " + item.addressTo;
+
 	addList(list, text);
 	
 }
@@ -171,7 +199,7 @@ function writeItem(list, item) {
 			break;
 			
 		case ITEM_TYPE.ROAD:
-			writeBusCarTrain(list, item);
+			writeRoad(list, item);
 			break;
 	}
 }

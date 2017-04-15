@@ -260,9 +260,47 @@ function createMap() {
 
 	var latlngCenter = new google.maps.LatLng(0, 0);
 	
+	// https://developers.google.com/maps/documentation/javascript/style-reference
+/*	
+var foo = [
+  {
+    "featureType": "all",
+    "stylers": [
+      { "color": "#C0C0C0" }
+    ]
+  },{
+    "featureType": "road.arterial",
+    "elementType": "geometry",
+    "stylers": [
+      { "color": "#CCFFFF" }
+    ]
+  },{
+    "featureType": "transit",
+    "elementType": "labels",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  }
+];
+*/
+
+var styles = 
+[
+	{
+    	"featureType": "transit.line",
+    	/*"elementType": "labels",*/
+    	"stylers": 
+    	[
+      		{ "visibility" : "off" }
+    	]
+  	}
+];
+	
     var mapOptions = {
 		zoom	: 1,
-		center	: latlngCenter
+		center	: latlngCenter,
+		styles  : styles,
+		
     };
 	
 	map = new google.maps.Map(document.getElementById('map'), mapOptions);
@@ -602,6 +640,7 @@ function createMapItem(item) {
   		directionsRenderer.setMap(map);
   	
 	 	var options = {
+	 		suppressInfoWindows : true,
 	 		suppressMarkers : false,
 	 		polylineOptions : getPolyLineStyle(item.travelType),
 	 		markerOptions	: markerStyleRoad,

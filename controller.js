@@ -211,6 +211,21 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 			
 			return transOptions;
     	}
+    	
+    	
+    	function suppressTransit(result) {
+    	
+			result.legs.forEach(
+				function(leg, index, array) {
+					leg.steps.forEach(
+						function(step, index, ar) {
+							step.transit = undefined;
+						}
+					);	  
+				}
+			); 
+    	}
+    	
     
     	var travelMode 		= getTravelMode(travelType);
     	var transitOptions 	= getTransitOptions(travelType);
@@ -233,6 +248,10 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 				if (status === google.maps.DirectionsStatus.OK) {
 			
 					var result = response.routes[0];
+					
+					
+					suppressTransit(result);
+					
 					
 					var item = createRoadItem(addresses, result, response, travelType);
 				
