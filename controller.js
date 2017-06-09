@@ -279,6 +279,18 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 // -------------------------------------------------------------------------------------------------
 
 //
+//	swapInputs
+//
+function swapInputs(id1, id2) {
+	
+	var value1 = document.getElementById(id1).value;
+	var value2 = document.getElementById(id2).value;
+	
+	document.getElementById(id1).value = value2;
+	document.getElementById(id2).value = value1;
+}
+
+//
 // addFlight
 //
 function addFlight() {
