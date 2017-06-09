@@ -299,6 +299,7 @@ var styles =
     var mapOptions = {
 		zoom	: 1,
 		center	: latlngCenter,
+		streetViewControl : false,
 		styles  : styles,
 		
     };
@@ -421,6 +422,32 @@ function createMapItem(item) {
 
 	function createFlight(item) {
 		
+		
+
+		function getAirplaneIconOffset(item) {
+		
+			var airplaneIconOffsetDefault = "25%";
+		
+			var str = item.airplaneIconOffset;
+			
+			if (typeof str === "string") {
+		    	
+		    	str = str.trim();
+		    	
+		    	if (str.substr(-1) === "%" )
+		    	{
+		    		return str;	
+		    	}
+				
+			}
+			
+			return airplaneIconOffsetDefault;
+			
+		}
+		
+		var airplaneIconOffset =  getAirplaneIconOffset(item);
+
+		
 		var shortDashedLineStyle = {
         	path: 'M 0 -1 L 0 2',
         	strokeOpacity: 1,
@@ -452,7 +479,7 @@ function createMapItem(item) {
 				},
 				{
 					icon	: planeIcon,
-					offset	: '25%',
+					offset	: airplaneIconOffset,
 					repeat	: '50%',
 				}
 			],
@@ -460,6 +487,7 @@ function createMapItem(item) {
 			geodesic: true,
 			map: map
 		};
+	
 	
 		var positionFrom = item.airportFrom.geometry.location;
 		var positionTo   = item.airportTo.geometry.location;

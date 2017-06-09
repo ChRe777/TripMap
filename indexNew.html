@@ -1,0 +1,251 @@
+﻿<html charset="UTF-8">
+<head>
+
+	<link rel="stylesheet" href="packages/purejs-datalist-polyfill/style.css"/>
+
+	<style>
+
+		body {
+			padding			: 0;
+			margin			: 0;
+		}
+
+		.main {
+			width  			: 100%;
+			height 			: 100%;
+		}
+		
+		.left {
+			padding			:  0px;
+			vertical-align 	:  top;
+			width 		   	:  30%;
+			max-height		: 100%;
+			float			: left;
+			overflow-y		: scroll;
+		}
+		
+		.left-padding {
+			padding			: 10px;
+		}
+		
+		.console {
+			padding			: 10px;
+			overflow-y		: auto;
+			background-color: #efefef;
+			border			: 0px solid #ccc;
+		}
+		
+		.middle {
+			vertical-align 	: top;
+			width 		   	: 50%;
+			float			: left;
+		}
+		
+		.map {
+			height			: 100%;
+			width 			: 100%;
+		}
+		
+		.right {
+			vertical-align 	: top;
+			overflow-y		: scroll;
+			max-height		: 100%;
+			/*width 		: 20%;*/
+		}
+		
+		.list {
+			/*width			: 100%;*/
+			padding			: 10px;
+			overflow-y		: auto;
+			background-color: #efefef;
+			border			: 0px solid #ccc;
+		}
+		
+		#legend {
+			font-family: Arial, sans-serif;
+			font-size: 10px;
+			background: #fff;
+			padding: 5px;
+			margin: 10px;
+			border: 0px solid grey;
+			box-shadow: 0 2px 2px 0 #C2C2C2;
+			border-radius: 4px;
+		}
+		
+		#legend h3 {
+			margin-top: 0;
+		}
+		
+		#legend img {
+			vertical-align: middle;
+		}
+	
+	</style>
+
+</head>
+<body>
+		
+	<div class="main">
+		
+			<div class="left">
+			
+				<div class="left-padding">
+			
+					<b>Flight:</b><br/> 
+					<br/>
+					From: <input type="text" id="airportFromTextBox" list="airports-list" placeholder="e.g. Graz Airport">
+					To: <input type="text" id="airportToTextBox" list="airports-list" placeholder="e.g. Vienna International Airport">
+					<br/>
+					Offset-Icon: <input type="text" id="airplaneIconOffset" placeholder="e.g. 25%"> 
+					<input type="button" value="Add" onclick="addFlight()">
+
+					<br/><br/>
+
+					<b>Bus/Car/Train:</b><br/><br/> 
+					
+					<input type="radio" name="subtype" value="car" checked> Car
+					<input type="radio" name="subtype" value="bus"> Bus
+					<input type="radio" name="subtype" value="train"> Train
+	  
+					<br/><br/> 
+					From: <input type="text" id="roadFromTextBox" list="cities-list" placeholder="e.g. Graz">
+					To: <input type="text" id="roadToTextBox" list="cities-list" placeholder="e.g. Vienna">
+					<input type="button" value="Add" onclick="addRoad()">
+
+					<br/><br/>
+					
+					<b>Ship:</b><br/>
+					<br/>
+					From: <input type="text" id="harbourFromTextBox" placeholder="e.g. Dover">
+					To: <input type="text" id="harbourToTextBox" placeholder="e.g. Calais">
+					<input type="button" value="Add" onclick="addShip()">
+
+					<br/><br/>
+					
+					<b>Road test:</b><br/>
+					
+					<input type="radio" name="travelType" value="car" checked> Car
+					<input type="radio" name="travelType" value="bus"> Bus
+					<input type="radio" name="travelType" value="train"> Train
+					
+					<br/>
+					From: <input type="text" id="roadTestFromTextBox" placeholder="e.g. Graz">
+					To: <input type="text" id="roadTestToTextBox" placeholder="e.g. Vienna"><br/>
+					Via: <input type="text" id="roadTestViaTextBox" placeholder="e.g. Linz">
+					<input type="button" value="Add" onclick="addRoadTest()">
+
+					<br/><br/>
+
+					<b>Position:</b><br/>  
+					<br/> 
+					Address: <input id="positionAddress" type="textbox" placeholder="e.g. London">
+					<input type="button" value="Add" onclick="addLocation()">
+
+					<br/><br/>
+					
+					<b>Commands:</b><br/> 
+					<br/>
+					<input id="toggleListButton" type="button" value="Hide list" onclick="toggleList()">
+					
+					<br/><br/>
+		
+					<b>Output:</b><br/> 
+				
+				</div>
+				<br/>
+				<div id="console" class="console"></div>
+			</div>
+			
+			<div class="middle">
+				<div id="map" class="map"></div>
+				<div id="legend"></div>
+			</div>
+			
+			
+			<div id="right" class="right" >
+				<div id="list" class="list"></div>
+			</div>
+	
+	</div>		
+	
+	<datalist id="airports-list">
+	</datalist>
+	
+	<datalist id="cities-list">
+	<!--[if lte IE 9]><select data-datalist="states"><![endif]-->
+		<option value="Alabama">
+		<option value="Alaska">
+		<option value="Arizona">
+		<option value="Arkansas">
+		<option value="California">
+		<option value="Colorado">
+		<option value="Connecticut">
+		<option value="Delaware">
+		<option value="Florida">
+		<option value="Georgia">
+		<option value="Hawaii">
+		<option value="Idaho">
+		<option value="Illinois">
+		<option value="Indiana">
+		<option value="Iowa">
+		<option value="Kansas">
+		<option value="Kentucky">
+		<option value="Louisiana">
+		<option value="Maine">
+		<option value="Maryland">
+		<option value="Massachusetts">
+		<option value="Michigan">
+		<option value="Minnesota">
+		<option value="Mississippi">
+		<option value="Missouri">
+		<option value="Montana">
+		<option value="Nebraska">
+		<option value="Nevada">
+		<option value="New Hampshire">
+		<option value="New Jersey">
+		<option value="New Mexico">
+		<option value="New York">
+		<option value="North Carolina">
+		<option value="North Dakota">
+		<option value="Ohio">
+		<option value="Oklahoma">
+		<option value="Oregon">
+		<option value="Pennsylvania">
+		<option value="Rhode Island">
+		<option value="South Carolina">
+		<option value="South Dakota">
+		<option value="Tennessee">
+		<option value="Texas">
+		<option value="Utah">
+		<option value="Vermont">
+		<option value="Virginia">
+		<option value="Washington">
+		<option value="West Virginia">
+		<option value="Wisconsin">
+		<option value="Wyoming">
+	<!--[if lte IE 9]></select><![endif]-->
+	</datalist>
+	
+	<script src="http://maps.google.com/maps/api/js?sensor=false&language=en"></script>
+	<script src="airports.js"></script>
+	<script src="maps.js"></script>
+	<script src="list.js"></script>
+	<script src="model.js"></script>
+	<script src="controller.js"></script>
+	
+	<script>
+	
+		var main = function() {
+			init();
+		};
+		
+		main();
+		
+	</script>
+		
+	<!-- airports datalist has to be filled before this script -->
+	<!-- https://github.com/Fyrd/purejs-datalist-polyfill -->
+	<script src="packages/purejs-datalist-polyfill/datalist.polyfill.js"></script>
+	
+</body> 
+</html>

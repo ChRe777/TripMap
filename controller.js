@@ -249,9 +249,7 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 			
 					var result = response.routes[0];
 					
-					
 					suppressTransit(result);
-					
 					
 					var item = createRoadItem(addresses, result, response, travelType);
 				
@@ -285,12 +283,13 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 //
 function addFlight() {
 	
-	var airportNameFrom = document.getElementById("airportFromTextBox").value;
-	var airportNameTo   = document.getElementById("airportToTextBox"  ).value;
+	var airportNameFrom    = document.getElementById("airportFromTextBox").value;
+	var airportNameTo      = document.getElementById("airportToTextBox"  ).value;
+	var airplaneIconOffset = document.getElementById("airplaneIconOffset").value;
 	
 	function callOnResults(resultFrom, resultTo) {
 	
-		var item = createFlightItem(resultFrom, resultTo);
+		var item = createFlightItem(resultFrom, resultTo, airplaneIconOffset);
 		addItem(item);
 
 		debugConsole("Add flight from " + airportNameFrom + " to " + airportNameTo);

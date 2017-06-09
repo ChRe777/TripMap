@@ -52,14 +52,15 @@ var items = [];
 //
 // createFlightItem 
 //
-function createFlightItem(airportFrom, airportTo) {
+function createFlightItem(airportFrom, airportTo, airplaneIconOffset) {
 
 	var item = {
 		id			: itemId++,
 		type  		: ITEM_TYPE.FLIGHT,
 		route 		: null,
 		airportFrom : airportFrom,
-		airportTo   : airportTo
+		airportTo   : airportTo,
+		airplaneIconOffset : airplaneIconOffset,
 	};
 	
 	return item;
