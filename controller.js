@@ -114,7 +114,7 @@ function addFromTo(addressFrom, addressTo, callOnResults) {
 //
 // addFromToOnRoad
 //
-function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
+function addFromToOnRoad(travelType, addressFrom, addressTo/*, addressOver*/) {
 
 
 	function addressFound(status) {
@@ -125,15 +125,15 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 		return results[0];
 	}
 	
-
+	/*
 	function getLocation(addresses, getRouteFunc) {
 	
-		var foo = {
+		var location = {
 			address: addresses.addressOver
 		};
 	
 		geocoder.geocode(
-			foo,
+			location,
 			function(results, status) {
 			
 				if (addressFound(status)) {
@@ -150,7 +150,11 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
 		)
 				
 	}
-
+	
+	*/
+	
+	/*
+	
 	function createWayPoints(addressResult) {
 
 		var wayPoints = [];
@@ -165,7 +169,9 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
     	return wayPoints;
     }
   
-    function getRoute(addresses, wayPoints) {
+  	*/
+  
+    function getRoute(addresses /*, wayPoints*/ /*not used*/) {
     
     	// TRANSIT
     	//
@@ -181,7 +187,9 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
         // 
     	function getTravelMode(travelType) {
     		
-    		if (travelType == ITEM_TRAVEL_TYPE.CAR)	
+    		if (travelType == ITEM_TRAVEL_TYPE.CAR ||
+    		    travelType == ITEM_TRAVEL_TYPE.BUS ||
+    		    travelType == ITEM_TRAVEL_TYPE.TRAIN)	
     			return google.maps.TravelMode.DRIVING;
     			    		
     		return google.maps.TravelMode.TRANSIT;
@@ -193,15 +201,19 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
     		
     		var transOptions = { };
     		
-    		if (travelType == ITEM_TRAVEL_TYPE.CAR) {
+    		if (travelType == ITEM_TRAVEL_TYPE.CAR ||
+    			travelType == ITEM_TRAVEL_TYPE.BUS ||
+    			travelType == ITEM_TRAVEL_TYPE.TRAIN) {
     			transOptions = { };
     		}
     		
+    		/*
     		if (travelType == ITEM_TRAVEL_TYPE.BUS) {
     			transitOptions = {
-					modes: [google.maps.TransitMode.BUS]
+					modes: [google.maps.TransitMode.BUS] // BUS does not work often!!!
 				};
 			}
+			*/
 			
 			if (travelType == ITEM_TRAVEL_TYPE.TRAIN) {
     			transitOptions = {
@@ -267,10 +279,12 @@ function addFromToOnRoad(travelType, addressFrom, addressTo, addressOver) {
   	var addresses = {
   		addressFrom : addressFrom, 
   		addressTo 	: addressTo, 
-  		addressOver : addressOver, 
+  		//addressOver : addressOver, 
   	};
   	
-  	getLocation(addresses, getRoute);
+  	//getLocation(addresses, getRoute);
+  	
+  	getRoute(addresses);
     
 }
 
@@ -347,7 +361,7 @@ function addRoad() {
 	
 		switch (subtype) {
 			case "car"  : return ITEM_SUB_TYPE.CAR;
-			case "bus"  : return ITEM_SUB_TYPE.BUS;
+			case "bus"  : return ITEM_SUB_TYPE.CAR; // BUS does not work
 			case "train": return ITEM_SUB_TYPE.TRAIN;
 		}
 	
@@ -396,9 +410,9 @@ function addRoadTest() {
 
 	var roadAddressFrom  = document.getElementById("roadTestFromTextBox").value;
 	var roadAddressTo    = document.getElementById("roadTestToTextBox"  ).value;
-	var roadAddressVia   = document.getElementById("roadTestViaTextBox").value;
+	//var roadAddressVia   = document.getElementById("roadTestViaTextBox").value;
 	
-	addFromToOnRoad(travelType, roadAddressFrom, roadAddressTo, roadAddressVia);
+	addFromToOnRoad(travelType, roadAddressFrom, roadAddressTo/*, roadAddressVia*/);
 	
 }
 
