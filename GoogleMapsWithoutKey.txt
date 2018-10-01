@@ -1,0 +1,51 @@
+
+https://stackoverflow.com/questions/38148097/google-maps-api-without-key
+
+see http://www.birdtheme.org/useful/v3largemap.html
+
+WITH 
+http://maps.google.com/maps/vt?pb=!1m5!1m4!1i1!2i1!3i1!4i256!2m3!1e2!6m1!3e5!2m3!1e0!2sm!3i437142280!3m14!2sen!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi02MHxwLmw6LTYw!4e0
+
+WITHOUT
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i7!2i67!3i37!4i256!2m3!1e0!2sm!3i437142640!3m14!2sde!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcy50OjJ8cC52Om9mZg!4e0!23i1301875&token=88164
+
+WITHOUT
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i9!2i268!3i149!4i256!2m3!1e0!2sm!3i437142640!3m14!2sde!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcy50OjJ8cC52Om9mZg!4e0!23i1301875&token=27766
+
+
+http://maps.google.com/maps/vt?pb=!1m5!1m4!1i1!2i1!3i1!4i256!2m3!1e2!6m1!3e5!2m3!1e0!2sm!3i437142280!3m14!2sen!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcy50OjJ8cC52Om9mZg!4e0!23i1301875&token=88164
+
+
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i1!2i1!3i1!4i256!2m3!1e2!6m1!3e5!2m3!1e0!2sm!3i437142280!3m14!2sen!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcy50OjJ8cC52Om9mZg!4e0!23i1301875&token=27766
+
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i9!2i268!3i149!4i256!2m3!1e0!2sm!3i437142640!3m14!2sde!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcy50OjJ8cC52Om9mZg
+
+
+
+
+
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i7!2i67!3i37!4i256!2m3!1e0!2sm!3i437142640!3m14!2sde!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi02MHxwLmw6LTYw
+
+
+
+WITH 
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i1!2i1!3i1  !4i256!2m3!1e2!6m1!3e5   !2m3!1e0!2sm!3i437142280!3m14!2sen!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi02MHxwLmw6LTYw!4e0
+
+WITHOUT
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i7!2i67!3i37!4i256                   !2m3!1e0!2sm!3i437142640!3m14!2sde!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcy50OjJ8cC52Om9mZg!4e0!23i1301875&token=88164
+
+
+WITHOUT SELF CREATED:                   0   1   2   3   4   5      6   7   8    9  10  11     12      13       14   15    16  17   18   19   20   21
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i1!2i1!3i1!4i256! 2m3!1e0                    !2sm!3i437142280!3m14!2sde!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcy50OjJ8cC52Om9mZg!4e0
+
+WITH 
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i1!2i1!3i1!4i256! 2m3!1e2 !6m1!3e5!2m3!1e0   !2sm!3i437142280!3m14!2sen!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi02MHxwLmw6LTYw!4e0
+
+
+
+WITHOUT SELF CREATED:
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i1!2i1!3i1!4i256!2m3!1e0!2sm!3i437142280!3m14!2sde!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcy50OjJ8cC52Om9mZg!4e0
+http://maps.googleapis.com/maps/vt?pb=!1m5!1m4!1i1!2i1!3i1!4i256!2m3!1e2!6m1!3e5!2m3!1e0!2sm!3i437142280!3m14!2sen!3sUS!5e18!12m1!1e68!12m3!1e37!2m1!1ssmartmaps!12m4!1e26!2m2!1sstyles!2zcC5zOi02MHxwLmw6LTYw!4e0
+
+
+
