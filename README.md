@@ -1,7 +1,7 @@
 # TripMap
 
-Editor to generate google maps for trips around the world
-per aeroplane, ship, car ..
+Editor to generate a trip map with google maps
+with flights, ship, car ..
 
 ![TripMap1](TripMap.png)
 
